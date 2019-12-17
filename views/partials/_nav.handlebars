@@ -1,0 +1,116 @@
+<nav class="navbar view-pc">
+    <div class="container">
+        <div>
+            <strong><a href="/" style="font-size: 20px;">Neps <span style="color: #cddc39;">Ride</span></a></strong>
+            <span style="padding-left: 15px;font-size:15px;font-weight: bold;">
+                <a href="/" style="padding-left: 15px;font-size:15px;">Search rides</a>
+                <a href="/earnwithus" style="padding-left: 15px;font-size:15px;">Earn now</a>
+                <a href="/about-us" style="padding-left: 15px;font-size:15px;">About us</a>
+                <a href="/blogs" style="padding-left: 15px;font-size:15px;">Articles</a>
+                <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default"
+                    style="padding-left: 15px;font-size:15px;" target="_blank">Help</a>
+            </span>
+        </div>
+        {{#if user}}
+        <div class="adminblock" style="font-weight:bold;">
+            <div class="header-links">
+                <a href="/admin/myaccount"> <i class="fa fa-user-cog"></i> My Account</a>
+                <a href="/admin-logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+        <div class="customerblock">
+            <div class="header-links" style="font-weight:bold;">
+                <a href="/admin/myaccount"> <i class="fa fa-user-cog"></i> My Account</a>
+                <a href="/admin-logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+        {{else}}
+        <div>
+            <div class="header-links">
+                <a href="/admin-login" style="font-size: 14px;padding-right:8px;font-weight: bold;">
+                    <svg width="1.1em" height="1.1em" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M17.5 6.5c0 3-2.5 5.5-5.5 5.5S6.5 9.5 6.5 6.5 9 1 12 1s5.5 2.5 5.5 5.5zm-3 0C14.5 5.1 13.4 4 12 4S9.5 5.1 9.5 6.5 10.6 9 12 9s2.5-1.1 2.5-2.5zM3 20c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6v3h-3v-3c0-1.7-1.4-3-3-3H9c-1.6 0-3 1.3-3 3v3H3v-3z"
+                            fill="currentColor"></path>
+                    </svg>
+                    Log in
+                </a>
+                <a href="/admin-register"
+                    style="background: #cddc39;color:#000;padding:8px 12px;font-size: 14px;font-weight: bold;">Sign
+                    up</a>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</nav>
+
+<header>
+    <nav class="navbar view-mobile fixed-top">
+        <div class="container" style="padding: 0;">
+            <div>
+                <strong><a href="/" style="font-size: 20px;">Neps <span style="color: #cddc39;">Ride</span></a></strong>
+            </div>
+            {{#if user}}
+            <img onclick="openNav()" src="/img/list-menu.svg" style="width: 21px;">
+            {{else}}
+            <div>
+                <strong>
+                    <a href="/admin-login" style="font-size: 14px;padding-right:8px;">Log in</a>
+                    <a href="/admin-register"
+                        style="background: #cddc39;color:#000;padding:5px 9px;font-size: 14px;">Sign
+                        up</a>
+                </strong>
+            </div>
+            {{/if}}
+        </div>
+    </nav>
+</header>
+
+{{!-- sidenav for mobile --}}
+<div id="mySidenav" class="sidenav">
+    <div style="background: #000;padding: 22px 0 22px 22px;color:#fff;">
+        <img class="adminblock" src="{{user.driverimage}}"
+            style="object-fit:cover;width: 45px;height:45px;border-radius:50%;">
+        <img class="customerblock" src="/img/customerimg.png"
+            style="object-fit:cover;width: 45px;height:45px;border-radius:50%;">
+        <div style="margin-top:14px;font-size:17px;">{{user.firstname}} {{user.lastname}}</div>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><img src="/img/back-arrow.svg" style="width: 19px;"></a>
+    </div>
+    <div class="sidenavlink">
+        <a href="/">Find Ride</a>
+        <a href="/your-rides">Your Trips</a>
+        <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" target="_blank">Help</a>
+        <a href="/admin/myaccount">Account</a>
+    </div>
+
+    <hr>
+
+    <div class="sidenavlink">
+        <a href="/blogs">Articles</a>
+        <a href="/earnwithus">Drive With Nepsride</a>
+        <a href="/admin-logout">Logout</a>
+    </div>
+</div>
+
+<script>
+    let adminuser = "{{user.admin}}"
+    if (adminuser == "false") {
+        let adminblock = document.getElementsByClassName("adminblock");
+        for (let e of adminblock) { e.style.display = "none"; }
+    }
+    if (adminuser == "true") {
+        let customerblock = document.getElementsByClassName("customerblock");
+        for (let e of customerblock) { e.style.display = "none"; }
+    }
+
+
+    //side nav=======================
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    /* Set the width of the side navigation to 0 */
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>

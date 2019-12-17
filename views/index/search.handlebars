@@ -1,0 +1,107 @@
+{{!-- location iq map css --}}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+
+<section>
+    {{#each users}}
+    <div id="map" style="height: 100vh;"></div>
+    <div class="fixed-top" style="margin:65px 10px 0 10px;">
+        <div class="card shadow-lg animated flipInX" style="background:#f6f6f6;">
+            <div class="card-body" style="font-size:15px;background:#f6f6f6;">
+                <img src="{{driverimage}}" style="width: 45px;height:45px;border-radius: 50%;object-fit:cover;">
+                <div style="display: inline-block;position: relative;top: 10px;left:5px;">
+                    <strong>{{firstname}} {{lastname}}</strong> <br>
+                    <span style="font-size:11px;color: #555;">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </span>
+                </div>
+                <div style="margin-top: 10px;">
+                    {{vehicletype}} <i class="fa fa-circle"
+                        style="font-size: 5px;position: relative;top:-3px;padding:0 3px;"></i> {{vehiclename}}
+                    <span style="border: 1.2px solid #000;padding:1px 3px;float: right;">{{vehiclenumber}}</span>
+                </div>
+            </div>
+        </div>
+
+        <form action="/ride-confirm/{{_id}}?_method=PUT" method="POST" style="margin-bottom:14px;" autocomplete="off">
+            <input type="text" class="form-control" id="latitudeandlongitude" name="latitudeandlongitude" hidden>
+            <input type="text" class="form-control" id="latitudeandlongitudedrop" name="latitudeandlongitudedrop" hidden>
+            <input type="text" class="form-control" id="adress" name="adress" hidden>
+            <input type="text" class="form-control" id="destination" name="destination" hidden>
+            <input type="text" name="drivernumber" value="{{drivernumber}}" hidden>
+            <input type="text" name="driverimage" value="{{driverimage}}" hidden>
+            <input type="text" name="vehicletype" value="{{vehicletype}}" hidden>
+            <input type="text" name="vehiclename" value="{{vehiclename}}" hidden>
+            <input type="text" name="vehiclenumber" value="{{vehiclenumber}}" hidden>
+            <input type="text" name="vehicleimage" value="{{vehicleimage}}" hidden>
+            <input type="text" name="driverid" value="{{_id}}" hidden>
+            <input type="text" name="firstname" value="{{firstname}}" hidden>
+            <input type="text" name="lastname" value="{{lastname}}" hidden>
+            <div class="fixed-bottom" style="z-index:1031;">
+                <input type="number" class="form-control" name="contactinfo"
+                    placeholder="Enter your contact number" style="margin:0;padding:28px 20px;" required>
+                <button class="btn" style="color:#000;padding:13px;width:100%;background:#cddc39;font-weight: bold;"
+                    type="submit"><i class="fa fa-check-circle" style="font-size: 15px;padding-right:10px;"></i>
+                    Confirm</button>
+            </div>
+        </form>
+    </div>
+
+    {{!-- location iq script file --}}
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="https://tiles.unwiredmaps.com/js/leaflet-unwired.js"></script>
+    <script>
+        // API token goes here
+        var key = 'pk.3bc69031431258dca';
+
+        // Add layers that we need to the map
+        var streets = L.tileLayer.Unwired({ key: key, scheme: "streets" });
+
+        // Initialize the map
+        var map = L.map('map', {
+            center: ["{{driverlat}}", "{{driverlon}}"], //map loads with this location as center
+            zoom: 16,
+            layers: [streets], // Show 'streets' by default
+            zoomControl: false
+        });
+
+        //custom icon
+        var greenIcon = new L.Icon({
+            iconUrl: '/img/mapcar.png',
+            iconSize: [57, 57], // size of the icon
+            iconAnchor: [20, 51], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -51] // point from which the popup should open relative to the iconAnchor                                 
+        });
+
+        //Add marker
+        var marker = L.marker(["{{driverlat}}", "{{driverlon}}"], { icon: greenIcon }).addTo(map);
+
+
+
+        //============================get query from the current url===========================================
+        function getQueryStringValue(key) {
+            return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+        }
+
+        document.getElementById('adress').value = getQueryStringValue("address-pickup")
+        document.getElementById('destination').value = getQueryStringValue("address-drop")
+        document.getElementById('latitudeandlongitude').value = getQueryStringValue("lat-pickup") + ',' + getQueryStringValue("lon-pickup")
+        document.getElementById('latitudeandlongitudedrop').value = getQueryStringValue("lat-drop") + ',' + getQueryStringValue("lon-drop")
+    </script>
+
+    {{else}}
+    <div class="container">
+        <div style="color: #000;padding-top: 30vh;padding-bottom: 40vh;">
+            <center>
+                <h5>Unfortunately, we could not find any available drivers at this moment.</h5>
+                <h5>Please search in a while or choose another pickup location.</h5>
+                <a href="/" class="btn"
+                    style="padding:14px 0;margin-top: 13px;color:#000;background:#cddc39;width: 100%;font-weight: bold;font-size:18px;">Schedule
+                    for later</a>
+            </center>
+        </div>
+    </div>
+    {{/each}}
+</section>

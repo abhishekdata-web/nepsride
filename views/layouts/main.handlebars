@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {{!-- Manifest file for add to homescreen --}}
+    <link rel="manifest" href="/manifest.json" />
+    {{!-- favicon --}}
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <title>{{title}}</title>
+    {{!-- Font awesome --}}
+    <script src="https://kit.fontawesome.com/d5dfe825b2.js" crossorigin="anonymous"></script>
+    {{!-- Animate.css --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    {{!-- Bootstrap --}}
+    <link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">
+    {{!-- custom css --}}
+    <link rel="stylesheet" href="/css/style.css">
+    {{!-- Google Fonts --}}
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro&display=swap" rel="stylesheet">
+    {{!-- Jquery --}}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <style>
+        * {
+            font-family: 'Maven Pro', sans-serif;
+        }
+
+        .navbar {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            font-size: 17px;
+            background: #000;
+        }
+
+        nav a {
+            color: #fff;
+        }
+
+        .header-links {
+            float: right;
+        }
+
+        .header-links a {
+            padding-left: 20px;
+            font-size: 15px;
+        }
+
+        .search-form {
+            width: 60%;
+        }
+
+        .form-control {
+            color: #777;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        select {
+            background: #f6f6f6 !important;
+        }
+
+        option {
+            background: #fff;
+        }
+
+        .vehivle-type-icons {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-around;
+            font-size: 12px;
+            font-weight: bold;
+            background: #f6f6f6;
+            padding-top: 8px;
+            color: #555;
+        }
+
+        .about-img {
+            width: 24%;
+        }
+
+        .footer-mobile {
+            display: none !important;
+        }
+
+        .view-mobile {
+            display: none !important;
+        }
+
+        @media screen and (max-width: 600px) {
+            header {
+                margin-bottom: 49px;
+            }
+
+            .footer-pc {
+                display: none !important;
+            }
+
+            .footer-mobile {
+                display: flex !important;
+            }
+
+            .view-pc {
+                display: none !important;
+            }
+
+            .view-mobile {
+                display: block !important;
+            }
+
+            .navbar {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            .header-links {
+                margin-top: 10px;
+                float: none;
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: space-around;
+            }
+
+            .header-links a {
+                font-size: 14px;
+                padding: 6px;
+                border: 1px solid #fff;
+                width: 50%;
+                text-align: center;
+            }
+
+            .search-form {
+                width: 100%;
+            }
+
+            .homepage-info {
+                margin-bottom: 35px;
+            }
+
+            .about-img {
+                width: 49%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {{> _nav}}
+    {{>_msg}}
+    {{> _errors}}
+    {{{body}}}
+    {{> _footer}}
+
+    {{!-- Bootstrap --}}
+    {{!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    {{!-- Ckeditor --}}
+    <script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('body', {
+            format_tags: 'p;h1;h2;h3;h4;h5;h6;pre;address;div'
+        });
+
+        // read only input in index.handlebars / autocomplete
+        $(".readonly").on('keydown paste', function (e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+
+</html>

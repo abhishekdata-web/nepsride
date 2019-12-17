@@ -1,0 +1,37 @@
+<div class="container" style="color: #000;padding-top:5vh;padding-bottom:4vh;">
+    <div class="row">
+        <div class="col-md-9">
+            {{#each blogs}}
+            <div style="margin-bottom: 60px;">
+                <h3 style="font-weight: bolder;">{{title}}</h3>
+                <div>
+                    <span>{{author}}</span>
+                    <span style="float: right;">{{formatDate date "MMMM Do YYYY"}}</span>
+                </div>
+                <img src="{{thumbnail}}" style="width: 100%;">
+                <p>
+                    {{{truncate body 195}}}
+                </p>
+                <a href="/blog-detail/{{slug}}" class="btn" style="background:#000;color:#fff;">Read more</a>
+            </div>
+            {{else}}
+            {{/each}}
+        </div>
+        <div class="col-md-3">
+            <img src="https://www.thelocal.es/userdata/images/article/85f83e3fab5b175828ee1c02359334299dc2a25fba60d52f64d2d210104dbcf1.jpg"
+                style="width: 100%;">
+            <p style="font-size: 17px;font-weight:bold;margin:10px 0;">Sign up and earn with Nepsride</p>
+            <button class="btn" style="background:#000;color:#fff;">Drive with Nepsride</button>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="container">
+    <nav aria-label="Page navigation example">
+        <ul class="flex-wrap pagination">
+            {{#paginate current=current pages=pages}}{{/paginate}}
+        </ul>
+    </nav>
+</div>

@@ -1,0 +1,47 @@
+<style>
+    body {
+        background: #f1f1f1;
+    }
+
+    input {
+        padding: 20px !important;
+    }
+</style>
+
+<section>
+    <div class="container">
+        <center style="padding-top: 10vh;padding-bottom: 15vh;color:#000">
+            <h2 class="search-form" style="margin-bottom:10px;text-align: left;">Sign Up to Ride</h2>
+            <h5 class="search-form" style="color: #444;margin-bottom:10px;font-size:17px;text-align: left;">Reliable rides in minutes</h5>
+            <br>
+            <form class="search-form" method="POST" action="/admin-register">
+                <input type="text" class="form-control" placeholder="Enter First Name" name="firstname"
+                    value="{{firstname}}" required>
+                <input type="text" class="form-control" placeholder="Enter Last Name" name="lastname"
+                    value="{{lastname}}" required>
+                <input type="text" class="form-control" placeholder="Email Adress or Number (Used for login)"
+                    name="email" value="{{email}}" required>
+                <input type="password" class="form-control" placeholder="Enter Password" name="password"
+                    value="{{password}}" required>
+                <input type="password" class="form-control" placeholder="Re-enter Password" name="password2"
+                    value="{{password2}}" required>
+                <button class="btn"
+                    style="font-weight:bold;margin-top: 20px;color:#fff;background: rgb(17, 147, 154);width: 100%;padding:11px 20px;text-align: left;">
+                    SIGN UP
+                    <i class="fas fa-long-arrow-alt-right" style="float: right;margin-top:2px;"></i>
+                </button>
+            </form>
+            <br>
+            <div class="search-form" style="text-align: left;">
+                <p style="line-height: 14px;font-size:10px;margin:0 0 15px 0;">
+                    By clicking "Sign Up", you agree to Uber's <a href="" style="color:rgb(17, 147, 154);">Terms of Use</a> and acknowledge you have read the <a href="" style="color: rgb(17, 147, 154);">Privacy
+                    Policy</a>. You also consent to receive calls or SMS messages, including by automated dialer, from Uber
+                    and its affiliates to the number you provide for informational and/or marketing purposes. Consent to
+                    receive marketing messages is not a condition to use Uber’s services. You understand that you may
+                    opt out by texting “STOP” to 89203.
+                </p>
+                Already have an account? <a href="/admin-login" style="color: rgb(17, 147, 154);">Log in</a>
+            </div>
+        </center>
+    </div>
+</section>

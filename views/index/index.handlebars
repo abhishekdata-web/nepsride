@@ -1,0 +1,540 @@
+{{!-- location iq css leaflet --}}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+<style>
+    /* HIDE RADIO */
+    [type=radio] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* IMAGE STYLES */
+    [type=radio]+img {
+        cursor: pointer;
+        margin: 8x 0 0 0;
+        width: 42px;
+        padding: 5px;
+    }
+
+    /* CHECKED STYLES */
+    [type=radio]:checked+img {
+        border-radius: 50%;
+        background: #cddc39;
+    }
+</style>
+
+{{!-- Mobile version --}}
+<section id="mobile-version">
+    <div id="map" style="height: 94vh;"></div>
+
+    <div class="container">
+        <center>
+            <form class="search-form" method="GET" action="/ride-search" id="demoForm" autocomplete="off">
+                <div class="fixed-top animated slideInRight" style="margin:65px 10px 0 10px;">
+                    <input name="address-pickup" id="address" type="text" class="form-control shadow-lg readonly"
+                        style="height: 48px;color:#000;background:#f6f6f6;" placeholder="Enter pickup location"
+                        data-toggle="modal" data-target="#exampleModal" required>
+                    <input type="text" name="lat-pickup" id="lat-pickup" hidden>
+                    <input type="text" name="lon-pickup" id="lon-pickup" hidden>
+                    <input name="address-drop" id="address2" type="text" class="form-control shadow-lg readonly"
+                        style="height: 48px;color:#000;background:#f6f6f6;" placeholder="Enter drop location"
+                        data-toggle="modal" data-target="#exampleModal2" required>
+                    <input type="text" name="lat-drop" id="lat-drop" hidden>
+                    <input type="text" name="lon-drop" id="lon-drop" hidden>
+                </div>
+                <div class="fixed-bottom">
+                    <div class="vehivle-type-icons">
+                        <div>
+                            <label>
+                                50/km <br>
+                                <input type="radio" name="vehicletype" value="car">
+                                <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"> <br>
+                                Mini
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                55/km <br>
+                                <input type="radio" name="vehicletype" value="prime" checked>
+                                <img
+                                    src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-prime-sedan-active.svg">
+                                <br>
+                                Prime
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                70/km <br>
+                                <input type="radio" name="vehicletype" value="pickup">
+                                <img
+                                    src="https://cdn1.iconfinder.com/data/icons/transport-line-symbol/91/transportation_c-08-512.png">
+                                <br>
+                                Pickup
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                60/hr <br>
+                                <input type="radio" name="vehicletype" value="rental">
+                                <img
+                                    src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-prime-play-active.svg">
+                                <br>
+                                Rental
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                30/km <br>
+                                <input type="radio" name="vehicletype" value="bike">
+                                <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-bike-active.svg"> <br>
+                                Bike
+                            </label>
+                        </div>
+                    </div>
+                    <button class="btn"
+                        style="padding:10px 0;color:#000;background:#cddc39;width: 100%;font-weight: bold;font-size:16px;">Ride
+                        Now</button>
+                </div>
+            </form>
+        </center>
+    </div>
+</section>
+
+{{!-- Desktop version --}}
+<section id="desktop-version">
+    <section>
+        <div class="container">
+            <div style="padding-top: 8vh;padding-bottom: 14vh;">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h2 style="text-align: left;margin-bottom:18px;font-weight: bold;font-size: 35px;color:#000;">
+                            Request a ride <br> now
+                        </h2>
+                        <form method="GET" action="/ride-search" id="demoForm" autocomplete="off">
+                            <input name="address-pickup" id="address" type="text" class="form-control readonly"
+                                style="height: 48px;color:#000;background:#f6f6f6;" placeholder="Enter pickup location"
+                                data-toggle="modal" data-target="#exampleModal" required>
+                            <input type="text" name="lat-pickup" id="lat-pickup" hidden>
+                            <input type="text" name="lon-pickup" id="lon-pickup" hidden>
+                            <input name="address-drop" id="address2" type="text" class="form-control readonly"
+                                style="height: 48px;color:#000;background:#f6f6f6;" placeholder="Enter drop location"
+                                data-toggle="modal" data-target="#exampleModal2" required>
+                            <input type="text" name="lat-drop" id="lat-drop" hidden>
+                            <input type="text" name="lon-drop" id="lon-drop" hidden>
+                            <div class="vehivle-type-icons" style="text-align: center;">
+                                <div>
+                                    <label>
+                                        50/km <br>
+                                        <input type="radio" name="vehicletype" value="car">
+                                        <img
+                                            src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg">
+                                        <br>
+                                        Mini
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        55/km <br>
+                                        <input type="radio" name="vehicletype" value="prime" checked>
+                                        <img
+                                            src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-prime-sedan-active.svg">
+                                        <br>
+                                        Prime
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        70/km <br>
+                                        <input type="radio" name="vehicletype" value="pickup">
+                                        <img
+                                            src="https://cdn1.iconfinder.com/data/icons/transport-line-symbol/91/transportation_c-08-512.png">
+                                        <br>
+                                        Pickup
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        60/hr <br>
+                                        <input type="radio" name="vehicletype" value="pickup">
+                                        <img
+                                            src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-prime-play-active.svg">
+                                        <br>
+                                        Rental
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        30/km <br>
+                                        <input type="radio" name="vehicletype" value="bike">
+                                        <img
+                                            src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-bike-active.svg">
+                                        <br>
+                                        Bike
+                                    </label>
+                                </div>
+                            </div>
+                            <button class="btn"
+                                style="padding:14px 0;margin-top: 13px;color:#000;background:#cddc39;width: 100%;font-weight: bold;font-size:18px;">Request
+                                Now</button>
+                        </form>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div id="map" style="height: 100%;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="background:#f6f6f6;color: #000;">
+        <div class="container">
+            <center style="padding: 70px 0 54px 0;">
+                <h2 style="text-align: left;font-weight: bold;">Nepsride for Everyone</h2>
+                <br>
+                <h5 style="color: #333;text-align: left;">Explore our national transportation solutions for your
+                    employees,
+                    guests, and customers.</h5>
+                <br>
+                <br>
+                <div class="row" style="font-size: 18px;">
+                    <div class="col-md-4 homepage-info">
+                        <img src="https://images.pexels.com/photos/35969/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                            style="width:100%;"> <br>
+                        <div style="margin-top:10px;font-weight:bold;">Adress Pickup</div>
+                        <p style="color: #333;font-size:16px;text-align: left;">We always pick up our clients on time,
+                            24/7
+                            availability.</p>
+                    </div>
+                    <div class="col-md-4 homepage-info">
+                        <img src="https://images.pexels.com/photos/1046227/pexels-photo-1046227.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                            style="width:100%;"> <br>
+                        <div style="margin-top:10px;font-weight:bold;">Out Station</div>
+                        <p style="color: #333;font-size:16px;text-align: left;">We offer you a long distance taxi
+                            service to
+                            anywhere.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="https://images.pexels.com/photos/97079/pexels-photo-97079.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                            style="width:100%;"> <br>
+                        <div style="margin-top:10px;font-weight:bold;">Rental Service</div>
+                        <p style="color: #333;font-size:16px;text-align: left;">We provide economic Parcel Delivery
+                            Within
+                            Nepal.</p>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </section>
+</section>
+
+<!-- Modal for autocomplete / pickup location -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 100%;height: 100%;margin: 0;padding: 0;">
+        <div class="modal-content" style="height: auto;min-height: 100%;border: none;">
+            <div class="modal-header" style="box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);padding:7px 16px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    style="padding-left:0;margin-right:5px;">
+                    <i class="fa fa-arrow-left" style="font-size: 14px;"></i>
+                </button>
+                <input autocomplete="off" type="text" id="search" class="form-control" name="destination"
+                    placeholder="Enter pickup location"
+                    style="color:#000;background: #eee;margin:0;padding:5px 10px;height:29px;">
+                <input type="text" id="search-lat" name="search-lat" hidden>
+                <input type="text" id="search-lon" name="search-lon" hidden>
+                <input type="text" id="search-name" name="search-name" hidden>
+            </div>
+            <div class="modal-body">
+                <div onclick="findMe();"
+                    style="display: flex;flex-direction:row;justify-content:space-between;margin-bottom:15px;">
+                    <img src="/img/gps-my.svg" style="width: 19px;">
+                    <button class="btn"
+                        style="font-size:14px;width:88%;padding:0 0 15px 0;text-align:left;border:none;border-bottom: 1px solid rgba(0,0,0,0.125);">
+                        <span style="color: #000;font-weight:bold;">Use Current Location</span> <br> Using GPS
+                    </button>
+                </div>
+                <div id="match-list">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for autocomplete / drop location -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 100%;height: 100%;margin: 0;padding: 0;">
+        <div class="modal-content" style="height: auto;min-height: 100%;border: none;">
+            <div class="modal-header" style="box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);padding:7px 16px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    style="padding-left:0;margin-right:5px;">
+                    <i class="fa fa-arrow-left" style="font-size: 14px;"></i>
+                </button>
+                <input autocomplete="off" type="text" id="search2" class="form-control" name="destination"
+                    placeholder="Enter drop location"
+                    style="color:#000;background: #eee;margin:0;padding:5px 10px;height:29px;">
+                <input type="text" id="search2-lat" name="search-lat" hidden>
+                <input type="text" id="search2-lon" name="search-lon" hidden>
+                <input type="text" id="search2-name" name="search-name" hidden>
+            </div>
+            <div class="modal-body">
+                <div id="match-list2">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- location iq map with leaflet --}}
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+<script src="https://tiles.unwiredmaps.com/js/leaflet-unwired.js"></script>
+
+<script>
+    //===========================================media quries guys======================================================
+    const mq = window.matchMedia("(min-width: 500px)");
+    if (mq.matches) {
+        //make the mobile-version div empty
+        document.getElementById('mobile-version').innerHTML = '';
+    } else {
+        //make the desktop-version div empty
+        document.getElementById('desktop-version').innerHTML = '';
+    } // media qury ends here
+
+
+
+
+
+
+    //automcomplete / pickup
+    const search = document.getElementById('search');
+    const matchList = document.getElementById('match-list');
+
+    //search the automcomplete api / pickup
+    const searchPlaces = async searchText => {
+        if (searchText.length > 2) {
+            const res = await fetch(`https://api.locationiq.com/v1/autocomplete.php?key=pk.3bc69031431258dca&q=${searchText}&limit=3`);
+            const places = await res.json();
+
+            console.log(places);
+
+            if (places.error) {
+                setTimeout(function () {
+                    matchList.innerHTML = `
+                    <div style="display: flex;flex-direction:row;justify-content:space-between;margin-bottom:15px;">
+                        <div></div>
+                        <div style='width:88%;'>
+                            <strong>No results</strong> <br>
+                            <span>Are you sure you entered the right location?</span>
+                        </div>
+                    </div>
+                    `
+                }, 1600);
+            } else {
+                outputHtml(places);
+            }
+        } else {
+            matchList.innerHTML = ''
+        }
+    }
+
+    //show result in HTML / pickup
+    const outputHtml = matches => {
+        if (matches.length > 0) {
+            const html = matches.map(match => `
+                <div style="display: flex;flex-direction:row;justify-content:space-between;margin-bottom:15px;" onclick="searchFill('${match.address.name}', '${match.lat}', '${match.lon}');copyaddress();" data-dismiss="modal">
+                    <div>
+                        <img src='/img/location-black.png' style="width: 17px;">
+                    </div>
+                    <button class="btn" style='width:88%;padding:0 0 15px 0;text-align:left;border:none;border-bottom: 1px solid rgba(0,0,0,0.125);'>
+                        <span style='font-size:14px;'>${match.address.name}</span> <br>
+                        <span style='font-size:14px;'>${match.address.city} / ${match.address.postcode}</span> <br>
+                        <small>Lat: ${match.lat} / Lon: ${match.lon}</small>
+                    </button>
+                </div>
+            `)
+                .join('')
+
+            matchList.innerHTML = html;
+        }
+    }
+
+    //auto fill the search form / pickup
+    const searchFill = (name, lat, lon) => {
+        search.value = name;
+        document.getElementById("search-name").value = name;
+        document.getElementById("search-lat").value = lat;
+        document.getElementById("search-lon").value = lon;
+    }
+
+    //addd event listner / pickup
+    search.addEventListener('input', () => searchPlaces(search.value))
+
+
+
+
+
+
+
+    //============================================================================================================
+    //automcomplete / drop
+    const search2 = document.getElementById('search2');
+    const matchList2 = document.getElementById('match-list2');
+
+    //search the automcomplete api / drop
+    const searchPlaces2 = async searchText => {
+        if (searchText.length > 2) {
+            const res = await fetch(`https://api.locationiq.com/v1/autocomplete.php?key=pk.3bc69031431258dca&q=${searchText}&limit=3`);
+            const places = await res.json();
+
+            console.log(places);
+
+            outputHtml2(places);
+        } else {
+            setTimeout(function () {
+                matchList2.innerHTML = ''
+            }, 1600);
+        }
+    }
+
+    //show result in HTML / drop
+    const outputHtml2 = matches => {
+        if (matches.length > 0) {
+            const html = matches.map(match => `
+                <div style="display: flex;flex-direction:row;justify-content:space-between;margin-bottom:15px;" onclick="searchFill2('${match.address.name}', '${match.lat}', '${match.lon}');copyaddress2();" data-dismiss="modal">
+                    <div>
+                        <img src='/img/location-black.png' style="width: 17px;">
+                    </div>
+                    <button class="btn" style='width:88%;padding:0 0 15px 0;text-align:left;border:none;border-bottom: 1px solid rgba(0,0,0,0.125);'>
+                        <span style='font-size:14px;'>${match.address.name}</span> <br>
+                        <span style='font-size:14px;'>${match.address.city} / ${match.address.postcode}</span> <br>
+                        <small>Lat: ${match.lat} / Lon: ${match.lon}</small>
+                    </button>
+                </div>
+            `)
+                .join('')
+
+            matchList2.innerHTML = html;
+        }
+    }
+
+    //auto fill the search form / drop
+    const searchFill2 = (name, lat, lon) => {
+        search2.value = name;
+        document.getElementById("search2-name").value = name;
+        document.getElementById("search2-lat").value = lat;
+        document.getElementById("search2-lon").value = lon;
+    }
+
+    //addd event listner / drop
+    search2.addEventListener('input', () => searchPlaces2(search2.value))
+
+
+
+
+
+
+
+    //============================================================================================================
+    // lat lon for map
+    let maplat = 28.0668895;
+    let maplon = 81.6263254;
+
+    //copy adress from autocomplete to pickup location field / pickup
+    const copyaddress = () => {
+        //for input
+        document.getElementById('address').value = search.value;
+        document.getElementById('lat-pickup').value = document.getElementById("search-lat").value;
+        document.getElementById('lon-pickup').value = document.getElementById("search-lon").value;
+
+        //for map
+        maplat = document.getElementById("search-lat").value;
+        maplon = document.getElementById("search-lon").value;
+
+        picklocationchange()
+    }
+
+    //copy adress from autocomplete to pickup location field / drop
+    const copyaddress2 = () => {
+        //for input
+        document.getElementById('address2').value = search2.value;
+        document.getElementById('lat-drop').value = document.getElementById("search2-lat").value;
+        document.getElementById('lon-drop').value = document.getElementById("search2-lon").value;
+
+        //for map
+        maplat = document.getElementById("search2-lat").value;
+        maplon = document.getElementById("search2-lon").value;
+
+        picklocationchange()
+    }
+
+    //============================================================================================================
+    //current location
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
+    function success(pos) {
+        var crd = pos.coords;
+
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": `https://us1.locationiq.com/v1/reverse.php?key=pk.3bc69031431258dca&lat=${crd.latitude}&lon=${crd.longitude}&format=json`,
+            "method": "GET"
+        }
+
+        $.ajax(settings).done(function (response) {
+            console.log(response)
+            document.getElementById("search").value = response.display_name;
+            document.getElementById("search-name").value = response.display_name;
+            copyaddress();
+            $('#exampleModal').modal('hide');
+        });
+
+        document.getElementById("search-lat").value = crd.latitude;
+        document.getElementById("search-lon").value = crd.longitude;
+    }
+
+    function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+
+    const findMe = () => {
+        navigator.geolocation.getCurrentPosition(success, error, options);
+    }
+
+
+
+
+
+    //==================================================================================================
+    //location iq map
+    // API token goes here
+    var key = 'pk.3bc69031431258dca';
+
+    // Add layers that we need to the map
+    var streets = L.tileLayer.Unwired({ key: key, scheme: "streets" });
+
+    // Initialize the map
+    var map = L.map('map', {
+        center: [maplat, maplon], //map loads with this location as center
+        zoom: 16,
+        layers: [streets], // Show 'streets' by default
+        zoomControl: false
+    });
+
+    var layerGroup = L.layerGroup().addTo(map);
+
+    function picklocationchange() {
+        layerGroup.clearLayers();
+        map.closePopup();
+        map.panTo([maplat, maplon]);
+        marker = L.marker([maplat, maplon]).addTo(layerGroup);
+    }
+</script>

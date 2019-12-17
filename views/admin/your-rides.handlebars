@@ -1,0 +1,178 @@
+<style>
+    .circle-dots {
+        font-size: 1.5px;
+        display: block;
+        line-height: 5px;
+        padding-left: 2px;
+    }
+
+    .main-dots {
+        position: relative;
+        bottom: 1px;
+    }
+
+    .main-dots2 {
+        position: relative;
+        top: -1px;
+    }
+
+    .history-detail {
+        width: 94%;
+    }
+
+    @media only screen and (max-width: 768px) {
+        .history-detail {
+            width: 87%;
+        }
+    }
+</style>
+
+<div class="container">
+    <div style="padding-top: 3vh;padding-bottom: 20vh;color:#000;">
+        <a href="/admin/upcoming-ride" style="color: #000;">
+            <p style="color:green;"><strong>Upcoming Rides</strong></p>
+            {{#xif user.ridestatus '===' 'pending'}}
+            <div style="display: flex;flex-direction:row;justify-content:space-between;">
+                <div>
+                    <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"
+                        style="width: 32px;position:relative;top:-4px;">
+                </div>
+                <div class="history-detail"
+                    style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
+                    <strong style="font-size: 15.5px;">{{formatDate user.bookingdate "ddd, MMM DD, hh:mm A"}}</strong>
+                    <span
+                        style="float: right;color: #777;text-transform:uppercase;font-size: 13.5px;position: relative;top:2px;">{{user.ridestatus}}</span>
+                    <br>
+                    <div style="font-size:14px;margin-bottom:10px;">Mini . Ba Kha 65615</div>
+                    <img src="{{user.driverimage}}" alt=""
+                        style="width: 40px;height:40px;border-radius: 50%;object-fit:cover;float: right;margin-left:13px;">
+                    <div style="line-height: 7px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
+                        <i class="fa fa-circle main-dots" style="color: green;font-size: 6px;"></i> <span
+                            style="font-size: 13px;">
+                            {{user.adress}}
+                        </span>
+                        <div>
+                            <i class="fa fa-circle circle-dots"></i>
+                            <i class="fa fa-circle circle-dots"></i>
+                            <i class="fa fa-circle circle-dots"></i>
+                            <i class="fa fa-circle circle-dots"></i>
+                            <i class="fa fa-circle circle-dots"></i>
+                        </div>
+                        <i class="fa fa-circle main-dots2" style="color: red;font-size: 6px;"></i> <span
+                            style="font-size: 13px;">
+                            {{user.destination}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {{/xif}}
+
+            {{#xif user.ridestatus '===' 'false'}}
+            <div style="display: flex;flex-direction:row;justify-content:space-between;">
+                <div>
+
+                </div>
+                {{#xif user.admin '===' 'false'}}
+                <div class="history-detail"
+                    style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
+                    <a href="/" style="color: #065fd4;">BOOK A RIDE <i class="fa fa-angle-right"></i></a>
+                </div>
+                {{/xif}}
+                {{#xif user.admin '===' 'true'}}
+                <div class="history-detail"
+                    style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
+                    <a href="/admin/myaccount" style="color: #065fd4;">UPDATE YOUR CITY <i
+                            class="fa fa-angle-right"></i></a>
+                </div>
+                {{/xif}}
+            </div>
+            {{/xif}}
+
+            {{#xif user.ridestatus '===' 'true'}}
+            <div style="display: flex;flex-direction:row;justify-content:space-between;">
+                <div>
+                    <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"
+                        style="width: 32px;position:relative;top:-4px;">
+                </div>
+                <div class="history-detail"
+                    style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
+                    <strong style="font-size: 15.5px;">{{formatDate user.bookingdate "ddd, MMM DD, hh:mm A"}}</strong>
+                    <span
+                        style="float: right;color: #777;text-transform:uppercase;font-size: 13.5px;position: relative;top:2px;">Ride
+                        begun</span>
+                    <br>
+                    <div style="font-size:14px;margin-bottom:10px;">Mini . Ba Kha 65615</div>
+                    <img src="{{user.driverimage}}" alt=""
+                        style="width: 40px;height:40px;border-radius: 50%;object-fit:cover;float: right;margin-left:13px;">
+                    <div style="line-height: 7px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
+                        <i class="fa fa-circle main-dots" style="color: green;font-size: 6px;"></i> <span
+                            style="font-size: 13px;">
+                            {{user.adress}}
+                        </span>
+                        <div>
+                            <i class="fa fa-circle circle-dots"></i>
+                            <i class="fa fa-circle circle-dots"></i>
+                            <i class="fa fa-circle circle-dots"></i>
+                            <i class="fa fa-circle circle-dots"></i>
+                            <i class="fa fa-circle circle-dots"></i>
+                        </div>
+                        <i class="fa fa-circle main-dots2" style="color: red;font-size: 6px;"></i> <span
+                            style="font-size: 13px;">
+                            {{user.destination}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {{/xif}}
+        </a>
+
+        <p style="color:red;"><strong>Rides Histroy</strong></p>
+        {{#each user.history}}
+        {{!-- {{#history}} --}}
+        <div style="display: flex;flex-direction:row;justify-content:space-between;">
+            <div>
+                <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"
+                    style="width: 32px;position:relative;top:-4px;">
+            </div>
+            <div class="history-detail"
+                style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
+                <strong style="font-size: 15.5px;">{{formatDate this.date "ddd, MMM DD, hh:mm A"}}</strong>
+                <span
+                    style="float: right;color: #777;text-transform:uppercase;font-size: 13.5px;position: relative;top:2px;">{{this.ridestatus}}</span>
+                <br>
+                <div style="font-size:14px;margin-bottom:10px;">Mini . Ba Kha 65615</div>
+                <img src="{{this.driverimage}}" alt=""
+                    style="width: 40px;height:40px;border-radius: 50%;object-fit:cover;float: right;margin-left:13px;">
+                <div style="line-height: 7px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
+                    <i class="fa fa-circle main-dots" style="color: green;font-size: 6px;"></i> <span
+                        style="font-size: 13px;">
+                        {{this.adress}}
+                    </span>
+                    <div>
+                        <i class="fa fa-circle circle-dots"></i>
+                        <i class="fa fa-circle circle-dots"></i>
+                        <i class="fa fa-circle circle-dots"></i>
+                        <i class="fa fa-circle circle-dots"></i>
+                        <i class="fa fa-circle circle-dots"></i>
+                    </div>
+                    <i class="fa fa-circle main-dots2" style="color: red;font-size: 6px;"></i> <span
+                        style="font-size: 13px;">
+                        {{this.destination}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {{!-- {{/history}} --}}
+        {{else}}
+        <div style="display: flex;flex-direction:row;justify-content:space-between;">
+            <div>
+
+            </div>
+            <div class="history-detail"
+                style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
+                <span>no history</span>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

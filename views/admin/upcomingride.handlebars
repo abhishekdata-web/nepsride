@@ -1,0 +1,246 @@
+{{!-- admin block --}}
+<section class="adminblock">
+    <div class="container">
+        <div class="ridetrue" style="padding-top: 3vh;padding-bottom: 30vh;color:#000;">
+            <div class="card">
+                <div class="card-body" style="font-size:15px;">
+                    <img src="/img/customerimg.png"
+                        style="width: 45px;height:45px;border-radius: 50%;object-fit:cover;">
+                    <div style="display: inline-block;position: relative;top: 10px;left:5px;">
+                        <strong> {{user.matchfirstname}} {{user.matchlastname}}</strong> <i id="dashtitle"></i> <br>
+                        <span style="font-size:11px;color:#555;">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </span>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        location <i class="fa fa-circle"
+                            style="font-size: 5px;position: relative;top:-3px;padding:0 3px;"></i>
+                        <a href="https://maps.google.com/?q={{user.latitudeandlongitude}}" target="_blank">Open map</a>
+                        {{#xif user.ridestatus '===' 'pending'}}
+                        <form action="/ride-start/{{user.customerid}}?_method=PUT" method="POST"
+                            style="display: inline;">
+                            <button style="background:none;border: 1.2px solid #000;padding:1px 3px;float: right;">Start
+                                Ride</button>
+                        </form>
+                        {{/xif}}
+                        {{#xif user.ridestatus '===' 'true'}}
+                        <form action="/ride-end/{{user.customerid}}?_method=PUT" method="POST" style="display: inline;">
+                            <button style="background:none;border: 1.2px solid #000;padding:1px 3px;float: right;">End
+                                Ride</button>
+                        </form>
+                        {{/xif}}
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                <a href="tel:+977{{user.contactinfo}}" class="btn"
+                    style="color:rgb(55, 123, 212);padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"><i
+                        class="fas fa-phone-alt" style="font-size: 13px;padding-right: 4px;"></i>
+                    Contact</a>
+                <form action="/cancel-ride-driver/{{user.customerid}}?_method=PUT" method="POST" style="width:48%;"
+                    onSubmit="if(!confirm('Are you sure you want to cancel the ride?')){return false;}">
+                    <button class="btn"
+                        style="color:red;padding:8px;margin-top:15px;width:100%;border: 1px solid rgba(0,0,0,0.125);"><i
+                            class="fa fa-times-circle" style="font-size: 14px;padding-right: 4px;"></i>
+                        Cancel</button>
+                </form>
+            </div>
+
+            <br>
+
+            <div class="card" style="color: #000;">
+                <ul class="list-group ridetrue">
+                    <li class="list-group-item"
+                        style="border:none;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
+                        <img src="/img/gps-black.png"
+                            style="width: 24px;padding-right: 8px;position: relative;top: -1px;">
+                        <strong>Pickup location</strong>
+                        <br>
+                        <a href="https://maps.google.com/?q={{user.adress}}"
+                            style="padding-left: 25px;line-height: 2;color: #2196F3;"
+                            target="_blank">{{user.adress}}</a>
+                    </li>
+                    <li class="list-group-item"
+                        style="border:none;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
+                        <img src="/img/location-black.png"
+                            style="width: 23px;padding-right: 8px;position: relative;top: -1px;">
+                        <strong>Drop location</strong>
+                        <br>
+                        <a href="https://maps.google.com/?q={{user.destination}}"
+                            style="padding-left: 25px;line-height: 2;color: #2196F3;"
+                            target="_blank">{{user.destination}}</a>
+                    </li>
+                </ul>
+                <h5 class="ridefalse"
+                    style="color: #fff;background: #c33764;margin:0;padding:15px;font-size: 15px;text-align: center;"><i
+                        class="fas fa-search-location"></i> No Booking Found</h5>
+            </div>
+
+            <div class="card" style="margin-top: 15px;color: #000;">
+                <div class="card-body">
+                    <h5 style="font-size: 14px;">Estimated cash to be paid:</h5>
+                    <i class="fas fa-money-bill"
+                        style="color: rgb(15, 197, 15);font-size: 16px;padding-right: 8px;"></i>
+                    <span style="">
+                        <i class="fa fa-rupee-sign" style="color: #555;"></i> 18 / km <span
+                            style="float: right;font-weight: bold;">Not Paid</span>
+                    </span>
+                </div>
+            </div>
+
+            <br>
+
+            <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                <a href="/admin/myaccount" class="btn"
+                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"><i
+                        class="fa fa-user" style="font-size: 17px;"></i> <br>
+                    Account</a>
+                <a href="" class="btn"
+                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"><i
+                        class="fas fa-shield-alt" style="font-size: 16px;"></i> <br>
+                    Safety</a>
+            </div>
+        </div>
+
+        <div class="ridefalse" style="padding-top: 10vh;padding-bottom: 45vh;color:#000;">
+            <h1 style="font-weight: bolder;">You, have no active ride.</h1>
+            <p>You hav no ride to be shown, please stay on this page to get notified when a ride gets confirmed with
+                you.</p>
+            <span style="color: rgb(16, 104, 236);">WAITING FOR A RIDE <i class="fa fa-angle-right"></i></span>
+        </div>
+    </div>
+</section>
+
+{{!-- customer block --}}
+<section class="customerblock">
+    <div class="container">
+        <div class="ridetrue" style="padding-top: 3vh;padding-bottom: 30vh;color:#000;">
+            <div class="card">
+                <div class="card-body" style="font-size:15px;">
+                    <img src="{{user.driverimage}}"
+                        style="width: 45px;height:45px;border-radius: 50%;object-fit:cover;">
+                    <div style="display: inline-block;position: relative;top: 10px;left:5px;">
+                        <strong>{{user.matchfirstname}} {{user.matchlastname}}</strong> <br>
+                        <span style="font-size:11px;color: #555;">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </span>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        {{user.vehicletype}} <i class="fa fa-circle"
+                            style="font-size: 5px;position: relative;top:-3px;padding:0 3px;"></i> {{user.vehiclename}}
+                        <span
+                            style="border: 1.2px solid #000;padding:1px 3px;float: right;">{{user.vehiclenumber}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                <a href="tel:+977{{user.drivernumber}}" class="btn animated infinite bounce delay-2s"
+                    style="color:rgb(55, 123, 212);padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"><i
+                        class="fas fa-phone-alt" style="font-size: 13px;padding-right: 4px;"></i>
+                    Contact</a>
+                <form action="/cancel-ride-customer/{{user.driverid}}?_method=PUT" method="POST" style="width:48%;"
+                    onSubmit="if(!confirm('Are you sure you want to cancel the ride?')){return false;}">
+                    <button class="btn"
+                        style="color:red;padding:8px;margin-top:15px;width:100%;border: 1px solid rgba(0,0,0,0.125);"><i
+                            class="fa fa-times-circle" style="font-size: 14px;padding-right: 4px;"></i>
+                        Cancel</button>
+                </form>
+            </div>
+            <br>
+
+            <div class="card" style="color: #000;">
+                <ul class="list-group">
+                    <li class="list-group-item"
+                        style="text-overflow: ellipsis; white-space: nowrap;overflow: hidden;border: none;">
+                        <img src="/img/gps-black.png"
+                            style="width: 24px;padding-right: 8px;position: relative;top: -1px;">
+                        <strong>Pickup location</strong>
+                        <br>
+                        <span style="padding-left: 25px;line-height: 2;">{{user.adress}}</span>
+                    </li>
+                    <li class="list-group-item"
+                        style="text-overflow: ellipsis; white-space: nowrap;overflow: hidden;border: none;">
+                        <img src="/img/location-black.png" style="width: 23px;padding-right: 8px;">
+                        <strong>Drop location</strong>
+                        <br>
+                        <span style="padding-left: 25px;line-height: 2;">{{user.destination}}</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card" style="margin-top: 15px;color: #000;">
+                <div class="card-body">
+                    <h5 style="font-size: 14px;">Estimated cash to be paid:</h5>
+                    <i class="fas fa-money-bill"
+                        style="color: rgb(15, 197, 15);font-size: 16px;padding-right: 8px;"></i>
+                    <span style="">
+                        <i class="fa fa-rupee-sign" style="color: #555;"></i> 18 / km <span
+                            style="float: right;font-weight: bold;">Not Paid</span>
+                    </span>
+                </div>
+            </div>
+
+            <br>
+
+            <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                <a href="/admin/myaccount" class="btn"
+                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"><i
+                        class="fa fa-user" style="font-size: 17px;"></i> <br>
+                    Account</a>
+                <a href="" class="btn"
+                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"><i
+                        class="fas fa-shield-alt" style="font-size: 16px;"></i> <br>
+                    Safety</a>
+            </div>
+        </div>
+
+        <div class="ridefalse" style="padding-top: 10vh;padding-bottom: 45vh;color:#000;">
+            <h1 style="font-weight: bolder;">You, have no active ride.</h1>
+            <p>You hav no ride to be shown, to see the status and info about your ride on this page, please click the
+                button below and book a ride of your choice.</p>
+            <a href="/">BOOK A RIDE <i class="fa fa-angle-right"></i></a>
+        </div>
+    </div>
+</section>
+
+<script>
+    let available = "{{user.available}}"
+    if (available == "yes") {
+        document.getElementById("dashtitle").className = ("fas fa-dot-circle");
+        document.getElementById("dashtitle").setAttribute('style', 'color:green');
+    }
+    if (available == "no") {
+        document.getElementById("dashtitle").className = ("fas fa-dot-circle");
+        document.getElementById("dashtitle").setAttribute('style', 'color:red');
+    }
+
+    //ride status
+    let ridestatus = "{{user.ridestatus}}"
+    if (ridestatus == "false") {
+        let ridetrue = document.getElementsByClassName("ridetrue");
+        for (let e of ridetrue) { e.style.display = "none"; }
+    }
+    if (ridestatus == "pending" || ridestatus == "true") {
+        let ridefalse = document.getElementsByClassName("ridefalse");
+        for (let e of ridefalse) { e.style.display = "none"; }
+    }
+
+
+    //admin or not (adminuser got from nav script tag)
+    if (adminuser == "false") {
+        let adminblock = document.getElementsByClassName("adminblock");
+        for (let e of adminblock) { e.style.display = "none"; }
+    }
+    if (adminuser == "true") {
+        let customerblock = document.getElementsByClassName("customerblock");
+        for (let e of customerblock) { e.style.display = "none"; }
+    }
+</script>

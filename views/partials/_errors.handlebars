@@ -1,0 +1,50 @@
+{{#each errors}}
+<div class="modal fade" id="myModal" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background: #000;">
+            <div class="modal-header" style="color:#fff;">
+                <div class="modal-title">Dear Nepsriders</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="/img/back-arrow.svg" style="width: 19px;">
+                </button>
+            </div>
+            <div class="modal-body" style="background:#fff;">
+                {{text}}
+            </div>
+            <div class="modal-footer" style="background:#fff;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{else}}
+
+{{/each}}
+
+{{!-- passport --}}
+{{#if error}}
+<div class="modal fade" id="myModal" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background: #000;">
+            <div class="modal-header" style="color:#fff;">
+                <div class="modal-title">Dear Nepsriders</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="/img/back-arrow.svg" style="width: 19px;">
+                </button>
+            </div>
+            <div class="modal-body" style="background:#fff;">
+                {{error}}
+            </div>
+            <div class="modal-footer" style="background:#fff;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+<script type="text/javascript">
+    $(window).on('load', function () {
+        $('#myModal').modal('show');
+    });
+</script>
