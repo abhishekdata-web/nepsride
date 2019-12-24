@@ -1,19 +1,21 @@
 <style>
     .circle-dots {
-        font-size: 1.5px;
+        width: 4px;
         display: block;
-        line-height: 5px;
-        padding-left: 2px;
+        padding: 3px 0 3px 2px;
     }
 
     .main-dots {
+        width: 5px;
         position: relative;
         bottom: 1px;
     }
 
     .main-dots2 {
+        width: 5px;
         position: relative;
-        top: -1px;
+        top: 2px;
+        margin-bottom: 5px;
     }
 
     .history-detail {
@@ -28,7 +30,7 @@
 </style>
 
 <div class="container">
-    <div style="padding-top: 3vh;padding-bottom: 20vh;color:#000;">
+    <div style="padding-top: 3vh;padding-bottom: 3vh;color:#000;">
         <a href="/admin/upcoming-ride" style="color: #000;">
             <p style="color:green;"><strong>Upcoming Rides</strong></p>
             {{#xif user.ridestatus '===' 'pending'}}
@@ -47,19 +49,17 @@
                     <img src="{{user.driverimage}}" alt=""
                         style="width: 40px;height:40px;border-radius: 50%;object-fit:cover;float: right;margin-left:13px;">
                     <div style="line-height: 7px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
-                        <i class="fa fa-circle main-dots" style="color: green;font-size: 6px;"></i> <span
-                            style="font-size: 13px;">
+                        <img src="/img/svg/circle.svg" class="main-dots"> <span style="font-size: 13px;">
                             {{user.adress}}
                         </span>
                         <div>
-                            <i class="fa fa-circle circle-dots"></i>
-                            <i class="fa fa-circle circle-dots"></i>
-                            <i class="fa fa-circle circle-dots"></i>
-                            <i class="fa fa-circle circle-dots"></i>
-                            <i class="fa fa-circle circle-dots"></i>
+                            <img src="/img/svg/circle.svg" class="circle-dots">
+                            <img src="/img/svg/circle.svg" class="circle-dots">
+                            <img src="/img/svg/circle.svg" class="circle-dots">
+                            <img src="/img/svg/circle.svg" class="circle-dots">
+                            <img src="/img/svg/circle.svg" class="circle-dots">
                         </div>
-                        <i class="fa fa-circle main-dots2" style="color: red;font-size: 6px;"></i> <span
-                            style="font-size: 13px;">
+                        <img src="/img/svg/circle.svg" class="main-dots2"> <span style="font-size: 13px;">
                             {{user.destination}}
                         </span>
                     </div>
@@ -105,19 +105,17 @@
                     <img src="{{user.driverimage}}" alt=""
                         style="width: 40px;height:40px;border-radius: 50%;object-fit:cover;float: right;margin-left:13px;">
                     <div style="line-height: 7px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
-                        <i class="fa fa-circle main-dots" style="color: green;font-size: 6px;"></i> <span
-                            style="font-size: 13px;">
+                        <img src="/img/svg/circle.svg" class="main-dots"> <span style="font-size: 13px;">
                             {{user.adress}}
                         </span>
                         <div>
-                            <i class="fa fa-circle circle-dots"></i>
-                            <i class="fa fa-circle circle-dots"></i>
-                            <i class="fa fa-circle circle-dots"></i>
-                            <i class="fa fa-circle circle-dots"></i>
-                            <i class="fa fa-circle circle-dots"></i>
+                            <img src="/img/svg/circle.svg" class="circle-dots">
+                            <img src="/img/svg/circle.svg" class="circle-dots">
+                            <img src="/img/svg/circle.svg" class="circle-dots">
+                            <img src="/img/svg/circle.svg" class="circle-dots">
+                            <img src="/img/svg/circle.svg" class="circle-dots">
                         </div>
-                        <i class="fa fa-circle main-dots2" style="color: red;font-size: 6px;"></i> <span
-                            style="font-size: 13px;">
+                        <img src="/img/svg/circle.svg" class="main-dots2"> <span style="font-size: 13px;">
                             {{user.destination}}
                         </span>
                     </div>
@@ -144,19 +142,17 @@
                 <img src="{{this.driverimage}}" alt=""
                     style="width: 40px;height:40px;border-radius: 50%;object-fit:cover;float: right;margin-left:13px;">
                 <div style="line-height: 7px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
-                    <i class="fa fa-circle main-dots" style="color: green;font-size: 6px;"></i> <span
-                        style="font-size: 13px;">
+                    <img src="/img/svg/circle.svg" class="main-dots"> <span style="font-size: 13px;">
                         {{this.adress}}
                     </span>
                     <div>
-                        <i class="fa fa-circle circle-dots"></i>
-                        <i class="fa fa-circle circle-dots"></i>
-                        <i class="fa fa-circle circle-dots"></i>
-                        <i class="fa fa-circle circle-dots"></i>
-                        <i class="fa fa-circle circle-dots"></i>
+                        <img src="/img/svg/circle.svg" class="circle-dots">
+                        <img src="/img/svg/circle.svg" class="circle-dots">
+                        <img src="/img/svg/circle.svg" class="circle-dots">
+                        <img src="/img/svg/circle.svg" class="circle-dots">
+                        <img src="/img/svg/circle.svg" class="circle-dots">
                     </div>
-                    <i class="fa fa-circle main-dots2" style="color: red;font-size: 6px;"></i> <span
-                        style="font-size: 13px;">
+                    <img src="/img/svg/circle.svg" class="main-dots2"> <span style="font-size: 13px;">
                         {{this.destination}}
                     </span>
                 </div>

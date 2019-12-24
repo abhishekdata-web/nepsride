@@ -723,9 +723,33 @@ app.put('/ride-end/:_id', (req, res) => {
     }).catch(err => console.log(err))
 })
 
+//dashboard page
+app.get('/dashboard', (req, res) => {
+    const perPage = 9;
+    const page = req.query.page || 1;
+
+    User.find({'admin': 'true'}).skip((perPage * page) - perPage).limit(perPage).sort('-ridecompleted')
+        .then(users => {
+            User.countDocuments({ 'admin': 'true' }).then(drivercount => {
+                User.countDocuments({ 'available': 'yes' }).then(availablecount => {
+                    User.countDocuments({ 'available': 'no' }).then(notavailablecount => {
+                        User.countDocuments({ 'admin': 'false' }).then(customercount => {
+                            res.render('admin/dashboard', { users: users, availablecount: availablecount, notavailablecount: notavailablecount, customercount: customercount, current: parseInt(page), pages: Math.ceil(drivercount / perPage) });
+                        }).catch(err => console.log(err));
+                    }).catch(err => console.log(err));
+                }).catch(err => console.log(err));
+            }).catch(err => console.log(err));
+        }).catch(err => console.log(err));
+})
+
 //Earn with us page
 app.get('/earnwithus', (req, res) => {
     res.render('index/earnwithus');
+})
+
+//terms&conditions page
+app.get('/termsandconditions', (req, res) => {
+    res.render('index/termsandconditions');
 })
 
 //blogs page
@@ -737,7 +761,7 @@ app.get('/blogs', (req, res) => {
         .then(blogs => {
             Blog.countDocuments().then(blogCount => {
                 res.render('blog/blogs', { blogs: blogs, current: parseInt(page), pages: Math.ceil(blogCount / perPage) })
-            })
+            }).catch(err => console.log(err));
         }).catch(err => console.log(err));
 })
 

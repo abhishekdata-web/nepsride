@@ -1,24 +1,30 @@
 {{!-- admin block --}}
 <section class="adminblock">
     <div class="container">
-        <div class="ridetrue" style="padding-top: 3vh;padding-bottom: 30vh;color:#000;">
-            <div class="card">
+        <div class="ridetrue" style="padding-top: 3vh;padding-bottom: 3vh;color:#000;">
+            <div class="card shadow-sm">
                 <div class="card-body" style="font-size:15px;">
                     <img src="/img/customerimg.png"
                         style="width: 45px;height:45px;border-radius: 50%;object-fit:cover;">
                     <div style="display: inline-block;position: relative;top: 10px;left:5px;">
-                        <strong> {{user.matchfirstname}} {{user.matchlastname}}</strong> <i id="dashtitle"></i> <br>
-                        <span style="font-size:11px;color:#555;">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
+                        <strong> {{user.matchfirstname}} {{user.matchlastname}}</strong> <br>
+                        <span>
+                            <img src="/img/svg/star.svg" style="width: 12px;">
+                            <img src="/img/svg/star.svg" style="width: 12px;">
+                            <img src="/img/svg/star.svg" style="width: 12px;">
+                            <img src="/img/svg/star.svg" style="width: 12px;">
                         </span>
                     </div>
                     <div style="margin-top: 10px;">
-                        location <i class="fa fa-circle"
-                            style="font-size: 5px;position: relative;top:-3px;padding:0 3px;"></i>
+                        location <img src="/img/svg/circle.svg"
+                            style="width: 11px;padding:0 3px;">
+                        {{#xif user.ridestatus '===' 'pending'}}
                         <a href="https://maps.google.com/?q={{user.latitudeandlongitude}}" target="_blank">Open map</a>
+                        {{/xif}}
+                        {{#xif user.ridestatus '===' 'true'}}
+                        <a href="https://maps.google.com/?q={{user.latitudeandlongitudedrop}}" target="_blank">Open
+                            map</a>
+                        {{/xif}}
                         {{#xif user.ridestatus '===' 'pending'}}
                         <form action="/ride-start/{{user.customerid}}?_method=PUT" method="POST"
                             style="display: inline;">
@@ -37,22 +43,22 @@
             </div>
 
             <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                <a href="tel:+977{{user.contactinfo}}" class="btn"
-                    style="color:rgb(55, 123, 212);padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"><i
-                        class="fas fa-phone-alt" style="font-size: 13px;padding-right: 4px;"></i>
+                <a href="tel:+977{{user.contactinfo}}" class="btn shadow-sm"
+                    style="color:rgb(55, 123, 212);padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                    <img src="/img/svg/phone.svg" style="width: 17px;padding-right: 4px;">
                     Contact</a>
                 <form action="/cancel-ride-driver/{{user.customerid}}?_method=PUT" method="POST" style="width:48%;"
                     onSubmit="if(!confirm('Are you sure you want to cancel the ride?')){return false;}">
-                    <button class="btn"
-                        style="color:red;padding:8px;margin-top:15px;width:100%;border: 1px solid rgba(0,0,0,0.125);"><i
-                            class="fa fa-times-circle" style="font-size: 14px;padding-right: 4px;"></i>
+                    <button class="btn shadow-sm"
+                        style="color:red;padding:8px;margin-top:15px;width:100%;border: 1px solid rgba(0,0,0,0.125);">
+                        <img src="/img/svg/cancel.svg" style="width: 18.5px;padding-right: 4px;">
                         Cancel</button>
                 </form>
             </div>
 
             <br>
 
-            <div class="card" style="color: #000;">
+            <div class="card shadow-sm" style="color: #000;">
                 <ul class="list-group ridetrue">
                     <li class="list-group-item"
                         style="border:none;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
@@ -75,18 +81,14 @@
                             target="_blank">{{user.destination}}</a>
                     </li>
                 </ul>
-                <h5 class="ridefalse"
-                    style="color: #fff;background: #c33764;margin:0;padding:15px;font-size: 15px;text-align: center;"><i
-                        class="fas fa-search-location"></i> No Booking Found</h5>
             </div>
 
-            <div class="card" style="margin-top: 15px;color: #000;">
+            <div class="card shadow-sm" style="margin-top: 15px;color: #000;">
                 <div class="card-body">
                     <h5 style="font-size: 14px;">Estimated cash to be paid:</h5>
-                    <i class="fas fa-money-bill"
-                        style="color: rgb(15, 197, 15);font-size: 16px;padding-right: 8px;"></i>
+                    <img src="/img/svg/money.svg" style="width: 28px;padding-right: 6px;">
                     <span style="">
-                        <i class="fa fa-rupee-sign" style="color: #555;"></i> 18 / km <span
+                         18 Rs/km <span
                             style="float: right;font-weight: bold;">Not Paid</span>
                     </span>
                 </div>
@@ -95,13 +97,13 @@
             <br>
 
             <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                <a href="/admin/myaccount" class="btn"
-                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"><i
-                        class="fa fa-user" style="font-size: 17px;"></i> <br>
+                <a href="/admin/myaccount" class="btn shadow-sm"
+                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                    <img src="/img/svg/user.svg" style="width:15px;"> <br>
                     Account</a>
-                <a href="" class="btn"
-                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"><i
-                        class="fas fa-shield-alt" style="font-size: 16px;"></i> <br>
+                <a href="" class="btn shadow-sm"
+                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                    <img src="/img/svg/help.svg" style="width:16px;"> <br>
                     Safety</a>
             </div>
         </div>
@@ -118,23 +120,23 @@
 {{!-- customer block --}}
 <section class="customerblock">
     <div class="container">
-        <div class="ridetrue" style="padding-top: 3vh;padding-bottom: 30vh;color:#000;">
-            <div class="card">
+        <div class="ridetrue" style="padding-top: 3vh;padding-bottom: 3vh;color:#000;">
+            <div class="card shadow-sm">
                 <div class="card-body" style="font-size:15px;">
                     <img src="{{user.driverimage}}"
                         style="width: 45px;height:45px;border-radius: 50%;object-fit:cover;">
                     <div style="display: inline-block;position: relative;top: 10px;left:5px;">
                         <strong>{{user.matchfirstname}} {{user.matchlastname}}</strong> <br>
-                        <span style="font-size:11px;color: #555;">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
+                        <span>
+                            <img src="/img/svg/star.svg" style="width: 12px;">
+                            <img src="/img/svg/star.svg" style="width: 12px;">
+                            <img src="/img/svg/star.svg" style="width: 12px;">
+                            <img src="/img/svg/star.svg" style="width: 12px;">
                         </span>
                     </div>
                     <div style="margin-top: 10px;">
-                        {{user.vehicletype}} <i class="fa fa-circle"
-                            style="font-size: 5px;position: relative;top:-3px;padding:0 3px;"></i> {{user.vehiclename}}
+                        {{user.vehicletype}} <img src="/img/svg/circle.svg"
+                            style="width: 11px;padding:0 3px;"> {{user.vehiclename}}
                         <span
                             style="border: 1.2px solid #000;padding:1px 3px;float: right;">{{user.vehiclenumber}}</span>
                     </div>
@@ -142,21 +144,20 @@
             </div>
 
             <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                <a href="tel:+977{{user.drivernumber}}" class="btn animated infinite bounce delay-2s"
-                    style="color:rgb(55, 123, 212);padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"><i
-                        class="fas fa-phone-alt" style="font-size: 13px;padding-right: 4px;"></i>
+                <a href="tel:+977{{user.drivernumber}}" class="btn animated infinite bounce shadow-sm"
+                    style="background:#fff;color:rgb(55, 123, 212);padding:8px;margin-top:35px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                    <img src="/img/svg/phone.svg" style="width: 17px;padding-right: 4px;">
                     Contact</a>
                 <form action="/cancel-ride-customer/{{user.driverid}}?_method=PUT" method="POST" style="width:48%;"
                     onSubmit="if(!confirm('Are you sure you want to cancel the ride?')){return false;}">
-                    <button class="btn"
-                        style="color:red;padding:8px;margin-top:15px;width:100%;border: 1px solid rgba(0,0,0,0.125);"><i
-                            class="fa fa-times-circle" style="font-size: 14px;padding-right: 4px;"></i>
+                    <button class="btn shadow-sm"
+                        style="background:#fff;color:red;padding:8px;margin-top:35px;width:100%;border: 1px solid rgba(0,0,0,0.125);">
+                        <img src="/img/svg/cancel.svg" style="width: 18.5px;padding-right: 4px;">
                         Cancel</button>
                 </form>
             </div>
-            <br>
 
-            <div class="card" style="color: #000;">
+            <div class="card shadow-sm" style="margin-top: 35px;color: #000;">
                 <ul class="list-group">
                     <li class="list-group-item"
                         style="text-overflow: ellipsis; white-space: nowrap;overflow: hidden;border: none;">
@@ -176,13 +177,12 @@
                 </ul>
             </div>
 
-            <div class="card" style="margin-top: 15px;color: #000;">
+            <div class="card shadow-sm" style="margin-top: 35px;color: #000;">
                 <div class="card-body">
                     <h5 style="font-size: 14px;">Estimated cash to be paid:</h5>
-                    <i class="fas fa-money-bill"
-                        style="color: rgb(15, 197, 15);font-size: 16px;padding-right: 8px;"></i>
+                    <img src="/img/svg/money.svg" style="width: 28px;padding-right: 6px;">
                     <span style="">
-                        <i class="fa fa-rupee-sign" style="color: #555;"></i> 18 / km <span
+                         18 Rs/km <span
                             style="float: right;font-weight: bold;">Not Paid</span>
                     </span>
                 </div>
@@ -191,14 +191,14 @@
             <br>
 
             <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                <a href="/admin/myaccount" class="btn"
-                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"><i
-                        class="fa fa-user" style="font-size: 17px;"></i> <br>
+                <a href="/admin/myaccount" class="btn shadow-sm"
+                    style="background:#fff;color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                    <img src="/img/svg/user.svg" style="width:15px;"> <br>
                     Account</a>
-                <a href="" class="btn"
-                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"><i
-                        class="fas fa-shield-alt" style="font-size: 16px;"></i> <br>
-                    Safety</a>
+                <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" class="btn shadow-sm"
+                    style="background:#fff;color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);" target="_blank">
+                    <img src="/img/svg/help.svg" style="width:16px;"> <br>
+                    Contact</a>
             </div>
         </div>
 
@@ -212,16 +212,6 @@
 </section>
 
 <script>
-    let available = "{{user.available}}"
-    if (available == "yes") {
-        document.getElementById("dashtitle").className = ("fas fa-dot-circle");
-        document.getElementById("dashtitle").setAttribute('style', 'color:green');
-    }
-    if (available == "no") {
-        document.getElementById("dashtitle").className = ("fas fa-dot-circle");
-        document.getElementById("dashtitle").setAttribute('style', 'color:red');
-    }
-
     //ride status
     let ridestatus = "{{user.ridestatus}}"
     if (ridestatus == "false") {

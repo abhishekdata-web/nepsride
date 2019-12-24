@@ -2,19 +2,19 @@
 <section class="adminblock">
     <div class="container">
         <div style="padding-top: 3vh;padding-bottom: 30vh;color:#000;">
-            <div class="card">
+            <div class="card shadow-sm">
                 <div class="card-body" style="font-size:15px;">
                     <img src="{{user.driverimage}}"
                         style="width: 45px;height:45px;border-radius: 50%;object-fit:cover;">
                     <div style="display: inline-block;position: relative;top: 10px;left:5px;">
-                        <strong>{{user.firstname}} {{user.lastname}}</strong> <i id="dashtitle"></i> <br>
+                        <strong>{{user.firstname}} {{user.lastname}}</strong> <br>
                         <span>
                             {{user.ridecompleted}} rides completed
                         </span>
                     </div>
                     <div style="margin-top: 10px;">
-                        {{user.vehicletype}} <i class="fa fa-circle"
-                            style="font-size: 5px;position: relative;top:-3px;padding:0 3px;"></i> {{user.vehiclename}}
+                        {{user.vehicletype}} <img src="/img/svg/circle.svg"
+                            style="width: 11px;padding:0 3px;"> {{user.vehiclename}}
                         <span
                             style="border: 1.2px solid #000;padding:1px 3px;float: right;">{{user.vehiclenumber}}</span>
                     </div>
@@ -22,17 +22,13 @@
             </div>
 
             <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                <a href="/your-rides" class="btn"
-                    style="color:#000;padding:8px;margin-top:15px;width:30%;border: 1px solid rgba(0,0,0,0.125);"><i
-                        class="fa fa-car" style="font-size: 16px;"></i> <br>
-                    My Rides</a>
-                <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" class="btn"
-                    style="color:#000;padding:8px;margin-top:15px;width:30%;border: 1px solid rgba(0,0,0,0.125);" target="_blank"><i
-                        class="fa fa-question-circle" style="font-size: 16px;"></i> <br>
+                <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" class="btn shadow-sm"
+                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"
+                    target="_blank"><img src="/img/svg/help.svg" style="width: 16px;"> <br>
                     Contact</a>
-                <a href="/admin-logout" class="btn"
-                    style="color:#000;padding:8px;margin-top:15px;width:30%;border: 1px solid rgba(0,0,0,0.125);"><i
-                        class="fa fa-sign-out-alt" style="font-size: 16px;"></i> <br>
+                <a href="/admin-logout" class="btn shadow-sm"
+                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                    <img src="/img/svg/signout.svg" style="width: 16px;"> <br>
                     Log Out</a>
             </div>
             <br>
@@ -90,8 +86,8 @@
                 <br>
                 <br>
                 <br>
-                <button class="btn" style="color:#fff;background: rgb(17, 147, 154);padding: 8px;float: right;"><i
-                        class="fas fa-edit"></i>
+                <button class="btn" style="color:#fff;background: rgb(17, 147, 154);padding: 8px;float: right;">
+                    <img src="/img/svg/edit.svg" style="width: 16px;">
                     Change Status</button>
             </form>
         </div>
@@ -101,8 +97,8 @@
 {{!-- customer block --}}
 <section class="customerblock">
     <div class="container">
-        <div style="padding-top: 3vh;padding-bottom: 30vh;color:#000;">
-            <div class="card">
+        <div style="padding-top: 3vh;padding-bottom: 10vh;color:#000;">
+            <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 style="font-weight: bold;margin:0;">
                         Welcome {{user.firstname}} <br>
@@ -114,52 +110,51 @@
             </div>
 
             <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                <a href="/your-rides" class="btn"
-                    style="color:#000;padding:8px;margin-top:15px;width:30%;border: 1px solid rgba(0,0,0,0.125);"><i
-                        class="fa fa-car" style="font-size: 16px;"></i> <br>
-                    My Rides</a>
-                <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" class="btn"
-                    style="color:#000;padding:8px;margin-top:15px;width:30%;border: 1px solid rgba(0,0,0,0.125);" target="_blank"><i
-                        class="fa fa-question-circle" style="font-size: 16px;"></i> <br>
+                <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" class="btn shadow-sm"
+                    style="background:#fff;color:#000;padding:8px;margin-top:35px;width:48%;border: 1px solid rgba(0,0,0,0.125);"
+                    target="_blank"><img src="/img/svg/help.svg" style="width: 16px;"> <br>
                     Contact</a>
-                <a href="/admin-logout" class="btn"
-                    style="color:#000;padding:8px;margin-top:15px;width:30%;border: 1px solid rgba(0,0,0,0.125);"><i
-                        class="fa fa-sign-out-alt" style="font-size: 16px;"></i> <br>
+                <a href="/admin-logout" class="btn shadow-sm"
+                    style="background:#fff;color:#000;padding:8px;margin-top:35px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                    <img src="/img/svg/signout.svg" style="width: 16px;"> <br>
                     Log Out</a>
             </div>
-            <br>
-            <br>
-            <form action="/customer/changestatus/{{user._id}}?_method=PUT" method="POST">
-                <div
-                    style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:68px;">
-                    <h5 style="margin: 0;font-size:15px;"># Email / Number</h5>
-                    <div style="width: 45%;">
-                        <input type="text" class="form-control" name="email" value="{{user.email}}"
-                            placeholder="Enter email" style="margin:0;" readonly>
-                    </div>
+
+            <div class="card shadow-sm" style="margin-top:35px;">
+                <div class="card-body">
+                    <form action="/customer/changestatus/{{user._id}}?_method=PUT" method="POST">
+                        <div
+                            style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:68px;">
+                            <h5 style="margin: 0;font-size:15px;"># Email / Number</h5>
+                            <div style="width: 45%;">
+                                <input type="text" class="form-control" name="email" value="{{user.email}}"
+                                    placeholder="Enter email" style="margin:0;" readonly>
+                            </div>
+                        </div>
+                        <div
+                            style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:60px;">
+                            <h5 style="margin: 0;font-size:15px;"># First Name</h5>
+                            <div style="width: 45%;">
+                                <input type="text" class="form-control" name="firstname" value="{{user.firstname}}"
+                                    placeholder="Enter first name" style="margin:0;">
+                            </div>
+                        </div>
+                        <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                            <h5 style="margin: 0;font-size:15px;"># Last Name</h5>
+                            <div style="width: 45%;">
+                                <input type="text" class="form-control" name="lastname" value="{{user.lastname}}"
+                                    placeholder="Enter last name" style="margin:0;">
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <button class="btn shadow"
+                            style="color:#fff;background: rgb(17, 147, 154);padding: 8px;float: right;"><img src="/img/svg/edit.svg" style="width: 16px;">
+                            Change Info</button>
+                    </form>
                 </div>
-                <div
-                    style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:60px;">
-                    <h5 style="margin: 0;font-size:15px;"># First Name</h5>
-                    <div style="width: 45%;">
-                        <input type="text" class="form-control" name="firstname" value="{{user.firstname}}"
-                            placeholder="Enter first name" style="margin:0;">
-                    </div>
-                </div>
-                <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                    <h5 style="margin: 0;font-size:15px;"># Last Name</h5>
-                    <div style="width: 45%;">
-                        <input type="text" class="form-control" name="lastname" value="{{user.lastname}}"
-                            placeholder="Enter last name" style="margin:0;">
-                    </div>
-                </div>
-                <br>
-                <br>
-                <br>
-                <button class="btn" style="color:#fff;background: rgb(17, 147, 154);padding: 8px;float: right;"><i
-                        class="fas fa-edit"></i>
-                    Change Info</button>
-            </form>
+            </div>
         </div>
     </div>
 </section>
@@ -180,16 +175,6 @@
 
     let purpose = "{{user.purpose}}"
     document.getElementById('purpose').value = purpose;
-
-
-    if (available == "yes") {
-        document.getElementById("dashtitle").className = ("fas fa-dot-circle");
-        document.getElementById("dashtitle").setAttribute('style', 'color:green');
-    }
-    if (available == "no") {
-        document.getElementById("dashtitle").className = ("fas fa-dot-circle");
-        document.getElementById("dashtitle").setAttribute('style', 'color:red');
-    }
 
 
     //admin or not (adminuser got from nav script tag)

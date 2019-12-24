@@ -54,15 +54,6 @@ const userSchema = new Schema({
     vehicleimage: {
         type: String
     },
-    city: {
-        type: String
-    },
-    location: {
-        type: String
-    },
-    purpose: {
-        type: String
-    },
     available: {
         type: String
     },

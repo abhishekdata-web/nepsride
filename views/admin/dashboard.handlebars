@@ -1,0 +1,139 @@
+<style>
+    body {
+        background: #f1f1f1;
+    }
+
+    a {
+        color: #333;
+    }
+
+    a.active {
+        background: #000 !important;
+    }
+</style>
+
+<section>
+    <div class="container" style="padding-top: 5vh;padding-bottom:5vh;">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <i class="fas fa-dot-circle" style="font-size:20px;float: right;color:green;"></i>
+                        <span>Active drivers</span> <br>
+                        <div style="font-weight:bold;font-size:18px;">{{availablecount}} drivers</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <i class="fas fa-dot-circle" style="font-size:20px;float: right;color:red;"></i>
+                        <span>Inactive drivers</span> <br>
+                        <div style="font-weight:bold;font-size:18px;">{{notavailablecount}} drivers</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <i class="fas fa-dot-circle" style="font-size:20px;float: right;color:#cddc39;"></i>
+                        <span>Total customers</span> <br>
+                        <div style="font-weight:bold;font-size:18px;">{{customercount}} customers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="padding-bottom:5vh;border-radius:6px;">
+    <div class="container">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row">
+                    {{#each users}}
+                    {{#xif available "==" "no"}}
+                    {{#xif ridestatus "==" "false"}}
+                    <div class="col-md-4" style="margin: 30px 0;">
+                        <div class="card shadow" style="background: red;color:#fff;">
+                            <div class="card-body">
+                                <img src="{{driverimage}}"
+                                    style="margin-bottom:10px;width: 105px;height:105px;object-fit:cover;border-radius:50%;">
+                                <div>Name: {{firstname}} {{lastname}}</div>
+                                <div>Driver Number: {{drivernumber}}</div>
+                                <div>Rides Completed: {{ridecompleted}}</div>
+                                <div>Booked at: {{formatDate bookingdate "ddd, MMM DD, hh:mm A"}}</div>
+                                <div>Pickup Location: {{latitudeandlongitude}}</div>
+                                <div>Drop Location: {{latitudeandlongitudedrop}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/xif}}
+                    {{/xif}}
+
+                    {{#xif ridestatus "==" "pending"}}
+                    <div class="col-md-4" style="margin: 30px 0;">
+                        <div class="card shadow" style="background: #cddc39;color:#000;">
+                            <div class="card-body">
+                                <img src="{{driverimage}}"
+                                    style="margin-bottom:10px;width: 105px;height:105px;object-fit:cover;border-radius:50%;">
+                                <div>Name: {{firstname}} {{lastname}}</div>
+                                <div>Driver Number: {{drivernumber}}</div>
+                                <div>Rides Completed: {{ridecompleted}}</div>
+                                <div>Booked at: {{formatDate bookingdate "ddd, MMM DD, hh:mm A"}}</div>
+                                <div>Pickup Location: {{latitudeandlongitude}}</div>
+                                <div>Drop Location: {{latitudeandlongitudedrop}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/xif}}
+
+                    {{#xif ridestatus "==" "true"}}
+                    <div class="col-md-4" style="margin: 30px 0;">
+                        <div class="card shadow" style="background: orange;color:#000;">
+                            <div class="card-body">
+                                <img src="{{driverimage}}"
+                                    style="margin-bottom:10px;width: 105px;height:105px;object-fit:cover;border-radius:50%;">
+                                <div>Name: {{firstname}} {{lastname}}</div>
+                                <div>Driver Number: {{drivernumber}}</div>
+                                <div>Rides Completed: {{ridecompleted}}</div>
+                                <div>Booked at: {{formatDate bookingdate "ddd, MMM DD, hh:mm A"}}</div>
+                                <div>Pickup Location: {{latitudeandlongitude}}</div>
+                                <div>Drop Location: {{latitudeandlongitudedrop}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/xif}}
+
+                    {{#xif available "==" "yes"}}
+                    <div class="col-md-4" style="margin: 30px 0;">
+                        <div class="card shadow" style="background: green;color:#fff;">
+                            <div class="card-body">
+                                <img src="{{driverimage}}"
+                                    style="margin-bottom:10px;width: 105px;height:105px;object-fit:cover;border-radius:50%;">
+                                <div>Name: {{firstname}} {{lastname}}</div>
+                                <div>Driver Number: {{drivernumber}}</div>
+                                <div>Rides Completed: {{ridecompleted}}</div>
+                                <div>Booked at: {{formatDate bookingdate "ddd, MMM DD, hh:mm A"}}</div>
+                                <div>Pickup Location: {{latitudeandlongitude}}</div>
+                                <div>Drop Location: {{latitudeandlongitudedrop}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/xif}}
+                    {{else}}
+                    {{/each}}
+                </div>
+
+
+                <div class="container">
+                    <nav aria-label="Page navigation example">
+                        <ul class="flex-wrap pagination">
+                            {{#paginate current=current pages=pages}}{{/paginate}}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
