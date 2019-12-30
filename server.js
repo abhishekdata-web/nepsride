@@ -382,8 +382,6 @@ app.put('/admin/changestatus/:_id', (req, res) => {
     })
         .then(user => {
             user.available = req.body.available;
-            user.city = req.body.city;
-            user.purpose = req.body.purpose;
             user.geolocation.coordinates = [req.body.lon, req.body.lat];
             user.driverlat = req.body.lat;
             user.driverlon = req.body.lon;

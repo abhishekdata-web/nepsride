@@ -5,8 +5,6 @@
             <span style="padding-left: 15px;font-size:15px;font-weight: bold;">
                 <a href="/" style="padding-left: 15px;font-size:15px;">Search rides</a>
                 <a href="/earnwithus" style="padding-left: 15px;font-size:15px;">Earn now</a>
-                <a href="/about-us" style="padding-left: 15px;font-size:15px;">About us</a>
-                <a href="/blogs" style="padding-left: 15px;font-size:15px;">Articles</a>
                 <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default"
                     style="padding-left: 15px;font-size:15px;" target="_blank">Help</a>
             </span>
@@ -14,12 +12,14 @@
         {{#if user}}
         <div class="adminblock" style="font-weight:bold;">
             <div class="header-links">
+                <a href="/your-rides">Your Trips</a>
                 <a href="/admin/myaccount"> <i class="fa fa-user-cog"></i> My Account</a>
                 <a href="/admin-logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
         <div class="customerblock">
             <div class="header-links" style="font-weight:bold;">
+                <a href="/your-rides">Your Trips</a>
                 <a href="/admin/myaccount"> <i class="fa fa-user-cog"></i> My Account</a>
                 <a href="/admin-logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
             </div>
@@ -74,7 +74,8 @@
         <img class="customerblock" src="/img/customerimg.png"
             style="object-fit:cover;width: 45px;height:45px;border-radius:50%;">
         <div style="margin-top:14px;font-size:17px;">{{user.firstname}} {{user.lastname}}</div>
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><img src="/img/back-arrow.svg" style="width: 19px;"></a>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><img src="/img/back-arrow.svg"
+                style="width: 19px;"></a>
     </div>
     <div class="sidenavlink">
         <a href="/">Find Ride</a>

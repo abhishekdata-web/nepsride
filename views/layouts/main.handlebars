@@ -11,9 +11,9 @@
     <link rel="shortcut icon" href="/img/favicon.png" />
     <title>{{title}}</title>
     {{!-- Animate.css --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="/css/animate.min.css">
     {{!-- Bootstrap --}}
-    <link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootswatch.min.css">
     {{!-- custom css --}}
     <link rel="stylesheet" href="/css/style.css">
     {{!-- Google Fonts --}}
@@ -158,18 +158,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    {{!-- Ckeditor --}}
-    <script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
-    <script>
-        CKEDITOR.replace('body', {
-            format_tags: 'p;h1;h2;h3;h4;h5;h6;pre;address;div'
-        });
 
+    <script>
         // read only input in index.handlebars / autocomplete
         $(".readonly").on('keydown paste', function (e) {
             e.preventDefault();
         });
     </script>
+
+    <script src="/script/main.js"></script>
 </body>
 
 </html>
