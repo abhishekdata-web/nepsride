@@ -245,6 +245,22 @@ app.post("/admin-login", (req, res, next) => {
     })(req, res, next)
 })
 
+app.get('/api/auth', (req, res) => {
+    if (req.user) {
+        res.status(200).json({
+            isAuth: true,
+            isAdmin: req.user.admin,
+            driverimage: req.user.driverimage,
+            firstname: req.user.firstname,
+            lastname: req.user.lastname
+        })
+    }else{
+        res.status(200).json({
+            isAuth: false
+        })
+    }
+})
+
 app.get("/admin-register", (req, res) => {
     res.render('admin/register');
 })
@@ -624,14 +640,15 @@ app.put('/ride-start/:_id', (req, res) => {
     }).catch(err => console.log(err))
 })
 
-app.get('/your-rides', ensureAuthenticated, (req, res) => {
-    User.findOne({
-        _id: req.user._id
+app.get('/your-rides', (req, res) => {
+    res.render("admin/your-rides")
+})
+
+app.get('/api/your-rides', (req, res) => {
+    User.findOne({ _id: req.user._id }, function (err, user) {
+        if (err) return next(err);
+        res.send(user);
     })
-        .then(user => {
-            res.render("admin/your-rides", { user: user })
-        })
-        .catch(err => console.log(err))
 })
 
 // End the ride / complete ride
@@ -726,7 +743,7 @@ app.get('/dashboard', (req, res) => {
     const perPage = 9;
     const page = req.query.page || 1;
 
-    User.find({'admin': 'true'}).skip((perPage * page) - perPage).limit(perPage).sort('-ridecompleted')
+    User.find({ 'admin': 'true' }).skip((perPage * page) - perPage).limit(perPage).sort('-ridecompleted')
         .then(users => {
             User.countDocuments({ 'admin': 'true' }).then(drivercount => {
                 User.countDocuments({ 'available': 'yes' }).then(availablecount => {
@@ -829,6 +846,11 @@ app.post('/addblog', (req, res) => {
             req.flash('success_msg', 'The blog post is succsessfully added');
             res.redirect('/blogs');
         }).catch(err => console.log(err));
+})
+
+//offline page
+app.get('/offline', (req, res) => {
+    res.render('index/offline');
 })
 
 // 404 Page

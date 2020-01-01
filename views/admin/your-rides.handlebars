@@ -22,6 +22,16 @@
         width: 94%;
     }
 
+    .wait-loading{
+        display: flex;
+        flex-direction:row;
+        justify-content:space-between;
+    }
+
+    .wait-loading img {
+        width: 30px;
+    }
+
     @media only screen and (max-width: 768px) {
         .history-detail {
             width: 87%;
@@ -33,142 +43,142 @@
     <div style="padding-top: 3vh;padding-bottom: 3vh;color:#000;">
         <a href="/admin/upcoming-ride" style="color: #000;">
             <p style="color:green;"><strong>Upcoming Rides</strong></p>
-            {{#xif user.ridestatus '===' 'pending'}}
-            <div style="display: flex;flex-direction:row;justify-content:space-between;">
-                <div>
-                    <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"
-                        style="width: 32px;position:relative;top:-4px;">
-                </div>
-                <div class="history-detail"
-                    style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
-                    <strong style="font-size: 15.5px;">{{formatDate user.bookingdate "ddd, MMM DD, hh:mm A"}}</strong>
-                    <span
-                        style="float: right;color: #777;text-transform:uppercase;font-size: 13.5px;position: relative;top:2px;">{{user.ridestatus}}</span>
-                    <br>
-                    <div style="font-size:14px;margin-bottom:10px;">Mini . Ba Kha 65615</div>
-                    <img src="{{user.driverimage}}" alt=""
-                        style="width: 40px;height:40px;border-radius: 50%;object-fit:cover;float: right;margin-left:13px;">
-                    <div style="line-height: 7px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
-                        <img src="/img/svg/circle.svg" class="main-dots"> <span style="font-size: 13px;">
-                            {{user.adress}}
-                        </span>
-                        <div>
-                            <img src="/img/svg/circle.svg" class="circle-dots">
-                            <img src="/img/svg/circle.svg" class="circle-dots">
-                            <img src="/img/svg/circle.svg" class="circle-dots">
-                            <img src="/img/svg/circle.svg" class="circle-dots">
-                            <img src="/img/svg/circle.svg" class="circle-dots">
-                        </div>
-                        <img src="/img/svg/circle.svg" class="main-dots2"> <span style="font-size: 13px;">
-                            {{user.destination}}
-                        </span>
-                    </div>
+            <div id="upcoming-data">
+                <div class="wait-loading">
+                    <div></div>
+                    <div class="history-detail" style="margin-bottom:20px;"><img src="/img/loading.svg" /></div>
                 </div>
             </div>
-            {{/xif}}
-
-            {{#xif user.ridestatus '===' 'false'}}
-            <div style="display: flex;flex-direction:row;justify-content:space-between;">
-                <div>
-
-                </div>
-                {{#xif user.admin '===' 'false'}}
-                <div class="history-detail"
-                    style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
-                    <a href="/" style="color: #065fd4;">BOOK A RIDE <i class="fa fa-angle-right"></i></a>
-                </div>
-                {{/xif}}
-                {{#xif user.admin '===' 'true'}}
-                <div class="history-detail"
-                    style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
-                    <a href="/admin/myaccount" style="color: #065fd4;">UPDATE YOUR CITY <i
-                            class="fa fa-angle-right"></i></a>
-                </div>
-                {{/xif}}
-            </div>
-            {{/xif}}
-
-            {{#xif user.ridestatus '===' 'true'}}
-            <div style="display: flex;flex-direction:row;justify-content:space-between;">
-                <div>
-                    <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"
-                        style="width: 32px;position:relative;top:-4px;">
-                </div>
-                <div class="history-detail"
-                    style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
-                    <strong style="font-size: 15.5px;">{{formatDate user.bookingdate "ddd, MMM DD, hh:mm A"}}</strong>
-                    <span
-                        style="float: right;color: #777;text-transform:uppercase;font-size: 13.5px;position: relative;top:2px;">Ride
-                        begun</span>
-                    <br>
-                    <div style="font-size:14px;margin-bottom:10px;">Mini . Ba Kha 65615</div>
-                    <img src="{{user.driverimage}}" alt=""
-                        style="width: 40px;height:40px;border-radius: 50%;object-fit:cover;float: right;margin-left:13px;">
-                    <div style="line-height: 7px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
-                        <img src="/img/svg/circle.svg" class="main-dots"> <span style="font-size: 13px;">
-                            {{user.adress}}
-                        </span>
-                        <div>
-                            <img src="/img/svg/circle.svg" class="circle-dots">
-                            <img src="/img/svg/circle.svg" class="circle-dots">
-                            <img src="/img/svg/circle.svg" class="circle-dots">
-                            <img src="/img/svg/circle.svg" class="circle-dots">
-                            <img src="/img/svg/circle.svg" class="circle-dots">
-                        </div>
-                        <img src="/img/svg/circle.svg" class="main-dots2"> <span style="font-size: 13px;">
-                            {{user.destination}}
-                        </span>
-                    </div>
-                </div>
-            </div>
-            {{/xif}}
         </a>
 
         <p style="color:red;"><strong>Rides Histroy</strong></p>
-        {{#each user.history}}
-        {{!-- {{#history}} --}}
-        <div style="display: flex;flex-direction:row;justify-content:space-between;">
-            <div>
-                <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"
-                    style="width: 32px;position:relative;top:-4px;">
-            </div>
-            <div class="history-detail"
-                style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
-                <strong style="font-size: 15.5px;">{{formatDate this.date "ddd, MMM DD, hh:mm A"}}</strong>
-                <span
-                    style="float: right;color: #777;text-transform:uppercase;font-size: 13.5px;position: relative;top:2px;">{{this.ridestatus}}</span>
-                <br>
-                <div style="font-size:14px;margin-bottom:10px;">Mini . Ba Kha 65615</div>
-                <img src="{{this.driverimage}}" alt=""
-                    style="width: 40px;height:40px;border-radius: 50%;object-fit:cover;float: right;margin-left:13px;">
-                <div style="line-height: 7px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
-                    <img src="/img/svg/circle.svg" class="main-dots"> <span style="font-size: 13px;">
-                        {{this.adress}}
-                    </span>
-                    <div>
-                        <img src="/img/svg/circle.svg" class="circle-dots">
-                        <img src="/img/svg/circle.svg" class="circle-dots">
-                        <img src="/img/svg/circle.svg" class="circle-dots">
-                        <img src="/img/svg/circle.svg" class="circle-dots">
-                        <img src="/img/svg/circle.svg" class="circle-dots">
-                    </div>
-                    <img src="/img/svg/circle.svg" class="main-dots2"> <span style="font-size: 13px;">
-                        {{this.destination}}
-                    </span>
-                </div>
+        <div id="history-data">
+            <div class="wait-loading">
+                <div></div>
+                <div class="history-detail" style="margin-bottom:20px;"><img src="/img/loading.svg" /></div>
             </div>
         </div>
-        {{!-- {{/history}} --}}
-        {{else}}
-        <div style="display: flex;flex-direction:row;justify-content:space-between;">
-            <div>
-
-            </div>
-            <div class="history-detail"
-                style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
-                <span>no history</span>
-            </div>
-        </div>
-        {{/each}}
     </div>
 </div>
+
+{{!-- ====================Moment js=============== --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script>
+    $.getJSON("/api/your-rides", function (data) {
+        // hide loading svg
+        let loading = document.getElementsByClassName("wait-loading");
+        for (let e of loading) { e.style.display = "none"; }
+
+        //========================upcoming data===================
+        $('#upcoming-data').append(
+            data.ridestatus === 'pending' || data.ridestatus == 'true' ?
+                `
+                        <div style="display: flex;flex-direction:row;justify-content:space-between;">
+                            <div>
+                                <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"
+                                    style="width: 32px;position:relative;top:-4px;">
+                            </div>
+                            <div class="history-detail"
+                                style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
+                                <strong style="font-size: 15.5px;">${moment(data.bookingdate).format("ddd, MMM DD, hh:mm A")}</strong>
+                                <span
+                                    style="float: right;color: #777;text-transform:uppercase;font-size: 13.5px;position: relative;top:2px;">
+                                    ${data.ridestatus === 'pending' ? data.ridestatus : data.ridestatus === 'true' ? 'Ride begun' : ''}
+                                    </span>
+                                <br>
+                                <div style="font-size:14px;margin-bottom:10px;">Mini . Ba Kha 65615</div>
+                                <img src="${data.driverimage}" alt=""
+                                    style="width: 40px;height:40px;border-radius: 50%;object-fit:cover;float: right;margin-left:13px;">
+                                <div style="line-height: 7px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
+                                    <img src="/img/svg/circle.svg" class="main-dots"> <span style="font-size: 13px;">
+                                        ${data.adress}
+                                    </span>
+                                    <div>
+                                        <img src="/img/svg/circle.svg" class="circle-dots">
+                                        <img src="/img/svg/circle.svg" class="circle-dots">
+                                        <img src="/img/svg/circle.svg" class="circle-dots">
+                                        <img src="/img/svg/circle.svg" class="circle-dots">
+                                        <img src="/img/svg/circle.svg" class="circle-dots">
+                                    </div>
+                                    <img src="/img/svg/circle.svg" class="main-dots2"> <span style="font-size: 13px;">
+                                        ${data.destination}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                :
+                `
+                <div style="display: flex;flex-direction:row;justify-content:space-between;">
+                    <div>
+
+                    </div>
+
+                    <div class="history-detail"
+                        style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
+                        <a href="${data.admin === 'false' ? '/' : '/admin/myaccount'}" style="color: #065fd4;">${data.admin === 'false' ? 'BOOK A RIDE' : 'UPDATE YOUR CITY'}</a>
+                    </div>
+            </div>
+        `
+        )
+        //========================/upcoming data===================
+
+
+
+
+
+
+
+        //======================history data====================
+        if (data.history.length > 0) {
+            $.each(data.history, function (i, history) {
+                $('#history-data').append(`
+                <div style="display: flex;flex-direction:row;justify-content:space-between;">
+                    <div>
+                        <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"
+                            style="width: 32px;position:relative;top:-4px;">
+                    </div>
+                    <div class="history-detail"
+                        style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
+                        <strong style="font-size: 15.5px;">${moment(history.date).format("ddd, MMM DD, hh:mm A")}</strong>
+                        <span
+                            style="float: right;color: #777;text-transform:uppercase;font-size: 13.5px;position: relative;top:2px;">${history.ridestatus}</span>
+                        <br>
+                        <div style="font-size:14px;margin-bottom:10px;">Mini . Ba Kha 65615</div>
+                        <img src="${history.driverimage}"
+                            style="width: 40px;height:40px;border-radius: 50%;object-fit:cover;float: right;margin-left:13px;">
+                        <div style="line-height: 7px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
+                            <img src="/img/svg/circle.svg" class="main-dots"> <span style="font-size: 13px;">
+                                ${history.adress}
+                            </span>
+                            <div>
+                                <img src="/img/svg/circle.svg" class="circle-dots">
+                                <img src="/img/svg/circle.svg" class="circle-dots">
+                                <img src="/img/svg/circle.svg" class="circle-dots">
+                                <img src="/img/svg/circle.svg" class="circle-dots">
+                                <img src="/img/svg/circle.svg" class="circle-dots">
+                            </div>
+                            <img src="/img/svg/circle.svg" class="main-dots2"> <span style="font-size: 13px;">
+                                ${history.destination}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `)
+            })
+        } else if (data.history.length <= 0) {
+            $('#history-data').append(`
+                <div style="display: flex;flex-direction:row;justify-content:space-between;">
+                    <div>
+
+                    </div>
+                    <div class="history-detail"
+                        style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
+                        <span>no history</span>
+                    </div>
+                </div>
+            `)
+        }
+        //=========================/history data=======================
+    });
+</script>

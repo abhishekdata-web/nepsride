@@ -1,10 +1,12 @@
-const cacheName = 'v2';
+const cacheName = 'v1';
 
 const cacheAssets = [
-    '/',
     '/css/style.css',
     '/css/bootswatch.min.css',
-    '/css/animate.min.css'
+    '/css/animate.min.css',
+    '/offline',
+    '/img/loading.svg',
+    '/your-rides'
 ]
 
 // Call install event
@@ -46,6 +48,8 @@ self.addEventListener('fetch', e => {
     console.log('Service Worker: Fetching');
 
     e.respondWith(
-        fetch(e.request).catch(() => caches.match(e.request))
+        caches.match(e.request).then(cacheRes => {
+            return cacheRes || fetch(e.request)
+        }).catch(() => caches.match('/offline'))
     )
 })
