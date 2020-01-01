@@ -22,10 +22,10 @@
         width: 94%;
     }
 
-    .wait-loading{
+    .wait-loading {
         display: flex;
-        flex-direction:row;
-        justify-content:space-between;
+        flex-direction: row;
+        justify-content: space-between;
     }
 
     .wait-loading img {
@@ -69,10 +69,11 @@
         let loading = document.getElementsByClassName("wait-loading");
         for (let e of loading) { e.style.display = "none"; }
 
-        //========================upcoming data===================
-        $('#upcoming-data').append(
-            data.ridestatus === 'pending' || data.ridestatus == 'true' ?
-                `
+        if (data.isAuth) {
+            //========================upcoming data===================
+            $('#upcoming-data').append(
+                data.user.ridestatus === 'pending' || data.user.ridestatus == 'true' ?
+                    `
                         <div style="display: flex;flex-direction:row;justify-content:space-between;">
                             <div>
                                 <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"
@@ -80,18 +81,18 @@
                             </div>
                             <div class="history-detail"
                                 style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
-                                <strong style="font-size: 15.5px;">${moment(data.bookingdate).format("ddd, MMM DD, hh:mm A")}</strong>
+                                <strong style="font-size: 15.5px;">${moment(data.user.bookingdate).format("ddd, MMM DD, hh:mm A")}</strong>
                                 <span
                                     style="float: right;color: #777;text-transform:uppercase;font-size: 13.5px;position: relative;top:2px;">
-                                    ${data.ridestatus === 'pending' ? data.ridestatus : data.ridestatus === 'true' ? 'Ride begun' : ''}
+                                    ${data.user.ridestatus === 'pending' ? data.user.ridestatus : data.user.ridestatus === 'true' ? 'Ride begun' : ''}
                                     </span>
                                 <br>
                                 <div style="font-size:14px;margin-bottom:10px;">Mini . Ba Kha 65615</div>
-                                <img src="${data.driverimage}" alt=""
+                                <img src="${data.user.driverimage}" alt=""
                                     style="width: 40px;height:40px;border-radius: 50%;object-fit:cover;float: right;margin-left:13px;">
                                 <div style="line-height: 7px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
                                     <img src="/img/svg/circle.svg" class="main-dots"> <span style="font-size: 13px;">
-                                        ${data.adress}
+                                        ${data.user.adress}
                                     </span>
                                     <div>
                                         <img src="/img/svg/circle.svg" class="circle-dots">
@@ -101,14 +102,14 @@
                                         <img src="/img/svg/circle.svg" class="circle-dots">
                                     </div>
                                     <img src="/img/svg/circle.svg" class="main-dots2"> <span style="font-size: 13px;">
-                                        ${data.destination}
+                                        ${data.user.destination}
                                     </span>
                                 </div>
                             </div>
                         </div>
                     `
-                :
-                `
+                    :
+                    `
                 <div style="display: flex;flex-direction:row;justify-content:space-between;">
                     <div>
 
@@ -116,12 +117,12 @@
 
                     <div class="history-detail"
                         style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
-                        <a href="${data.admin === 'false' ? '/' : '/admin/myaccount'}" style="color: #065fd4;">${data.admin === 'false' ? 'BOOK A RIDE' : 'UPDATE YOUR CITY'}</a>
+                        <a href="${data.user.admin === 'false' ? '/' : '/admin/myaccount'}" style="color: #065fd4;">${data.user.admin === 'false' ? 'BOOK A RIDE' : 'UPDATE YOUR CITY'}</a>
                     </div>
             </div>
         `
-        )
-        //========================/upcoming data===================
+            )
+            //========================/upcoming data===================
 
 
 
@@ -129,10 +130,10 @@
 
 
 
-        //======================history data====================
-        if (data.history.length > 0) {
-            $.each(data.history, function (i, history) {
-                $('#history-data').append(`
+            //======================history data====================
+            if (data.user.history.length > 0) {
+                $.each(data.user.history, function (i, history) {
+                    $('#history-data').append(`
                 <div style="display: flex;flex-direction:row;justify-content:space-between;">
                     <div>
                         <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"
@@ -165,9 +166,9 @@
                     </div>
                 </div>
             `)
-            })
-        } else if (data.history.length <= 0) {
-            $('#history-data').append(`
+                })
+            } else if (data.history.length <= 0) {
+                $('#history-data').append(`
                 <div style="display: flex;flex-direction:row;justify-content:space-between;">
                     <div>
 
@@ -178,7 +179,23 @@
                     </div>
                 </div>
             `)
+            }
+            //=========================/history data=======================
+        } else {
+            $('#upcoming-data').append(`<div style="display: flex;flex-direction:row;justify-content:space-between;">
+                    <div></div>
+                    <div class="history-detail"
+                        style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
+                        <a href='/admin-login'>Please login to view</a>
+                    </div>
+                </div>`);
+            $('#history-data').append(`<div style="display: flex;flex-direction:row;justify-content:space-between;">
+                    <div></div>
+                    <div class="history-detail"
+                        style="border-bottom: 1px solid rgba(0,0,0,0.125);padding-bottom:29px;margin-bottom:29px;">
+                        <a href='/admin-login'>Please login to view</a>
+                    </div>
+                </div>`);
         }
-        //=========================/history data=======================
     });
 </script>

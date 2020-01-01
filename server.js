@@ -254,7 +254,7 @@ app.get('/api/auth', (req, res) => {
             firstname: req.user.firstname,
             lastname: req.user.lastname
         })
-    }else{
+    } else {
         res.status(200).json({
             isAuth: false
         })
@@ -645,10 +645,16 @@ app.get('/your-rides', (req, res) => {
 })
 
 app.get('/api/your-rides', (req, res) => {
-    User.findOne({ _id: req.user._id }, function (err, user) {
-        if (err) return next(err);
-        res.send(user);
-    })
+    if (req.user) {
+        User.findOne({ _id: req.user._id }, function (err, user) {
+            if (err) return next(err);
+            res.send({user, isAuth: true});
+        })
+    } else {
+        res.status(200).json({
+            isAuth: false
+        })
+    }
 })
 
 // End the ride / complete ride
