@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background:#f6f6f6;" width="42px" viewBox="0 36 100 30" preserveAspectRatio="xMidYMid">
+<g transform="translate(25 50)">
+<circle cx="0" cy="0" r="6" fill="#888888" transform="scale(0.0200996 0.0200996)">
+  <animateTransform attributeName="transform" type="scale" begin="-0.2544529262086514s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="0.7633587786259541s" repeatCount="indefinite"></animateTransform>
+</circle>
+</g><g transform="translate(50 50)">
+<circle cx="0" cy="0" r="6" fill="#888888" transform="scale(0.374142 0.374142)">
+  <animateTransform attributeName="transform" type="scale" begin="-0.1272264631043257s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="0.7633587786259541s" repeatCount="indefinite"></animateTransform>
+</circle>
+</g><g transform="translate(75 50)">
+<circle cx="0" cy="0" r="6" fill="#888888" transform="scale(0.826944 0.826944)">
+  <animateTransform attributeName="transform" type="scale" begin="0s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="0.7633587786259541s" repeatCount="indefinite"></animateTransform>
+</circle>
+</g>
+</svg>

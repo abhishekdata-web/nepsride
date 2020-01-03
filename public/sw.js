@@ -1,4 +1,4 @@
-const cacheName = 'v6';
+const cacheName = 'v2';
 
 const cacheAssets = [
     '/css/style.css',
@@ -6,7 +6,7 @@ const cacheAssets = [
     '/css/animate.min.css',
     '/offline',
     '/img/loading.svg',
-    '/your-rides'
+    '/img/priceloader.svg'
 ]
 
 // Call install event

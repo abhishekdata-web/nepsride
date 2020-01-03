@@ -126,9 +126,6 @@ app.get('/ride-search', (req, res) => {
             } else {
                 User.find(
                     {
-                        // "city": { "$regex": req.query['city'], "$options": "i" },
-                        // "location": { "$regex": req.query['location'], "$options": "i" },
-                        // "purpose": { "$regex": req.query['purpose'], "$options": "i" },
                         "vehicletype": { "$regex": req.query['vehicletype'], "$options": "i" },
                         "admin": "true",
                         "available": "yes",

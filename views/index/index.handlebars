@@ -32,12 +32,12 @@
         <center>
             <form class="search-form" method="GET" action="/ride-search" id="demoForm" autocomplete="off">
                 <div class="fixed-top animated slideInRight" style="margin:65px 10px 0 10px;">
-                    <input name="address-pickup" id="address" type="text" class="form-control shadow-lg readonly"
+                    <input name="address-pickup" id="address" type="text" class="form-control shadow readonly"
                         style="height: 48px;color:#000;background:#f6f6f6;" placeholder="Enter pickup location"
                         data-toggle="modal" data-target="#exampleModal" required>
                     <input type="text" name="lat-pickup" id="lat-pickup" hidden>
                     <input type="text" name="lon-pickup" id="lon-pickup" hidden>
-                    <input name="address-drop" id="address2" type="text" class="form-control shadow-lg readonly"
+                    <input name="address-drop" id="address2" type="text" class="form-control shadow readonly"
                         style="height: 48px;color:#000;background:#f6f6f6;" placeholder="Enter drop location"
                         data-toggle="modal" data-target="#exampleModal2" required>
                     <input type="text" name="lat-drop" id="lat-drop" hidden>
@@ -47,7 +47,7 @@
                     <div class="vehivle-type-icons">
                         <div>
                             <label>
-                                50/km <br>
+                                <span id="car-price"><img src="/img/priceloader.svg"></span> <br>
                                 <input type="radio" name="vehicletype" value="car">
                                 <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"> <br>
                                 Mini
@@ -439,12 +439,19 @@
 
 
     //============================================================================================================
-    // lat lon for map
+    // default lat lon for map
     let maplat = 28.0668895;
     let maplon = 81.6263254;
+    // lat lon for pickup and drop
+    let pickupLat = 0;
+    let pickupLon = 0;
+    let dropLat = 0;
+    let dropLon = 0;
 
     //copy adress from autocomplete to pickup location field / pickup
     const copyaddress = () => {
+        $('#car-price').empty().append(`<img src="/img/priceloader.svg">`);
+
         //for input
         document.getElementById('address').value = search.value;
         document.getElementById('lat-pickup').value = document.getElementById("search-lat").value;
@@ -453,12 +460,18 @@
         //for map
         maplat = document.getElementById("search-lat").value;
         maplon = document.getElementById("search-lon").value;
+        //lat lon for pickup and drop
+        pickupLat = document.getElementById("search-lat").value;
+        pickupLon = document.getElementById("search-lon").value;
 
-        picklocationchange()
+        picklocationchange();
+        calculateDistance();
     }
 
     //copy adress from autocomplete to pickup location field / drop
     const copyaddress2 = () => {
+        $('#car-price').empty().append(`<img src="/img/priceloader.svg">`);
+        
         //for input
         document.getElementById('address2').value = search2.value;
         document.getElementById('lat-drop').value = document.getElementById("search2-lat").value;
@@ -467,8 +480,12 @@
         //for map
         maplat = document.getElementById("search2-lat").value;
         maplon = document.getElementById("search2-lon").value;
+        //lat lon for pickup and drop
+        dropLat = document.getElementById("search2-lat").value;
+        dropLon = document.getElementById("search2-lon").value;
 
-        picklocationchange()
+        picklocationchange();
+        calculateDistance();
     }
 
     //============================================================================================================
@@ -535,6 +552,73 @@
         layerGroup.clearLayers();
         map.closePopup();
         map.panTo([maplat, maplon]);
-        marker = L.marker([maplat, maplon]).addTo(layerGroup);
+        if (pickupLat != 0 && pickupLon != 0) {
+            marker = L.marker([pickupLat, pickupLon], { draggable: true }).addTo(layerGroup);
+
+            marker.on('dragend', function (e) {
+                $('#car-price').empty().append(`<img src="/img/priceloader.svg">`);
+                
+                var settings = {
+                    "async": true,
+                    "crossDomain": true,
+                    "url": `https://us1.locationiq.com/v1/reverse.php?key=pk.3bc69031431258dca&lat=${marker.getLatLng().lat}&lon=${marker.getLatLng().lng}&format=json`,
+                    "method": "GET"
+                }
+
+                $.ajax(settings).done(function (response) {
+                    console.log(response)
+                    document.getElementById("search").value = response.display_name;
+                    document.getElementById("search-name").value = response.display_name;
+                    copyaddress();
+                });
+
+                document.getElementById("search-lat").value = marker.getLatLng().lat;
+                document.getElementById("search-lon").value = marker.getLatLng().lng;
+            });
+        }
+        if (dropLat != 0 && dropLon != 0) {
+            marker2 = L.marker([dropLat, dropLon], { draggable: true }).addTo(layerGroup);
+
+            marker2.on('dragend', function (e) {
+                $('#car-price').empty().append(`<img src="/img/priceloader.svg">`);
+
+                var settings = {
+                    "async": true,
+                    "crossDomain": true,
+                    "url": `https://us1.locationiq.com/v1/reverse.php?key=pk.3bc69031431258dca&lat=${marker2.getLatLng().lat}&lon=${marker2.getLatLng().lng}&format=json`,
+                    "method": "GET"
+                }
+
+                $.ajax(settings).done(function (response) {
+                    console.log(response)
+                    document.getElementById("search2").value = response.display_name;
+                    document.getElementById("search2-name").value = response.display_name;
+                    copyaddress2();
+                });
+
+                document.getElementById("search2-lat").value = marker2.getLatLng().lat;
+                document.getElementById("search2-lon").value = marker2.getLatLng().lng;
+            });
+        }
     }
+
+
+    //calculate price =======================================================
+    const calculateDistance = () => {
+        if (pickupLat != 0 && pickupLon != 0 && dropLat != 0 && dropLon != 0) {
+            $.ajax({
+                url: `https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?origins=${pickupLat},${pickupLon}&destinations=${dropLat},${dropLon}&travelMode=driving&key=AlKMFyG8tPnYpigMrr3iwTmr354ZRFTlf-OeDQ1ZcONHroJIi5Qrr6uUh-f4O5kM`,
+                type: 'GET',
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res.resourceSets[0].resources[0].results[0].travelDistance + ' km');
+                    console.log(((res.resourceSets[0].resources[0].results[0].travelDistance) * 50).toFixed(2) + ' Rs');
+                    console.log(res.resourceSets[0].resources[0].results[0].travelDuration + ' min');
+
+                    $('#car-price').empty().append(((res.resourceSets[0].resources[0].results[0].travelDistance) * 50).toFixed(0) + ' Rs');
+                }
+            });
+        }
+    }
+
 </script>
