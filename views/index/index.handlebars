@@ -12,9 +12,10 @@
     /* IMAGE STYLES */
     [type=radio]+img {
         cursor: pointer;
-        margin: 8x 0 0 0;
-        width: 42px;
+        width: 44px;
         padding: 5px;
+        border-radius: 50%;
+        background: #ddd;
     }
 
     /* CHECKED STYLES */
@@ -42,53 +43,34 @@
                         data-toggle="modal" data-target="#exampleModal2" required>
                     <input type="text" name="lat-drop" id="lat-drop" hidden>
                     <input type="text" name="lon-drop" id="lon-drop" hidden>
+                    <input type="text" name="tripdistance" id="tripdistance" hidden>
                 </div>
                 <div class="fixed-bottom">
                     <div class="vehivle-type-icons">
                         <div>
                             <label>
-                                <span id="car-price"><img src="/img/priceloader.svg"></span> <br>
+                                <span id="car-price" style="line-height: 29px;"><img src="/img/priceloader.svg" style="width: 42px;"></span> <br>
                                 <input type="radio" name="vehicletype" value="car">
                                 <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"> <br>
-                                Mini
+                                <span>Micro</span> <img src="/img/svg/info-circle.svg" style="width: 10px;">
                             </label>
                         </div>
                         <div>
                             <label>
-                                55/km <br>
+                                <span id="prime-price" style="line-height: 29px;"><img src="/img/priceloader.svg" style="width: 42px;"></span> <br>
                                 <input type="radio" name="vehicletype" value="prime" checked>
                                 <img
                                     src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-prime-sedan-active.svg">
                                 <br>
-                                Prime
+                                <span>Prime</span> <img src="/img/svg/info-circle.svg" style="width: 10px;">
                             </label>
                         </div>
                         <div>
                             <label>
-                                70/km <br>
-                                <input type="radio" name="vehicletype" value="pickup">
-                                <img
-                                    src="https://cdn1.iconfinder.com/data/icons/transport-line-symbol/91/transportation_c-08-512.png">
-                                <br>
-                                Pickup
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                60/hr <br>
-                                <input type="radio" name="vehicletype" value="rental">
-                                <img
-                                    src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-prime-play-active.svg">
-                                <br>
-                                Rental
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                30/km <br>
+                                <span id="bike-price" style="line-height: 29px;"><img src="/img/priceloader.svg" style="width: 42px;"></span> <br>
                                 <input type="radio" name="vehicletype" value="bike">
                                 <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-bike-active.svg"> <br>
-                                Bike
+                                <span>Bike</span> <img src="/img/svg/info-circle.svg" style="width: 10px;">
                             </label>
                         </div>
                     </div>
@@ -122,55 +104,39 @@
                                 data-toggle="modal" data-target="#exampleModal2" required>
                             <input type="text" name="lat-drop" id="lat-drop" hidden>
                             <input type="text" name="lon-drop" id="lon-drop" hidden>
+                            <input type="text" name="tripdistance" id="tripdistance" hidden>
                             <div class="vehivle-type-icons" style="text-align: center;">
                                 <div>
                                     <label>
-                                        50/km <br>
+                                        <span id="car-price"><img src="/img/priceloader.svg"
+                                                style="width: 42px;"></span> <br>
                                         <input type="radio" name="vehicletype" value="car">
                                         <img
                                             src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg">
                                         <br>
-                                        Mini
+                                        Mini <img src="/img/svg/info-circle.svg" style="width: 10px;">
                                     </label>
                                 </div>
                                 <div>
                                     <label>
-                                        55/km <br>
+                                        <span id="prime-price"><img src="/img/priceloader.svg"
+                                                style="width: 42px;"></span> <br>
                                         <input type="radio" name="vehicletype" value="prime" checked>
                                         <img
                                             src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-prime-sedan-active.svg">
                                         <br>
-                                        Prime
+                                        Prime <img src="/img/svg/info-circle.svg" style="width: 10px;">
                                     </label>
                                 </div>
                                 <div>
                                     <label>
-                                        70/km <br>
-                                        <input type="radio" name="vehicletype" value="pickup">
-                                        <img
-                                            src="https://cdn1.iconfinder.com/data/icons/transport-line-symbol/91/transportation_c-08-512.png">
-                                        <br>
-                                        Pickup
-                                    </label>
-                                </div>
-                                <div>
-                                    <label>
-                                        60/hr <br>
-                                        <input type="radio" name="vehicletype" value="pickup">
-                                        <img
-                                            src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-prime-play-active.svg">
-                                        <br>
-                                        Rental
-                                    </label>
-                                </div>
-                                <div>
-                                    <label>
-                                        30/km <br>
+                                        <span id="bike-price"><img src="/img/priceloader.svg"
+                                                style="width: 42px;"></span> <br>
                                         <input type="radio" name="vehicletype" value="bike">
                                         <img
                                             src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-bike-active.svg">
                                         <br>
-                                        Bike
+                                        Bike <img src="/img/svg/info-circle.svg" style="width: 10px;">
                                     </label>
                                 </div>
                             </div>
@@ -451,6 +417,8 @@
     //copy adress from autocomplete to pickup location field / pickup
     const copyaddress = () => {
         $('#car-price').empty().append(`<img src="/img/priceloader.svg">`);
+        $('#prime-price').empty().append(`<img src="/img/priceloader.svg">`);
+        $('#bike-price').empty().append(`<img src="/img/priceloader.svg">`);
 
         //for input
         document.getElementById('address').value = search.value;
@@ -471,7 +439,9 @@
     //copy adress from autocomplete to pickup location field / drop
     const copyaddress2 = () => {
         $('#car-price').empty().append(`<img src="/img/priceloader.svg">`);
-        
+        $('#prime-price').empty().append(`<img src="/img/priceloader.svg">`);
+        $('#bike-price').empty().append(`<img src="/img/priceloader.svg">`);
+
         //for input
         document.getElementById('address2').value = search2.value;
         document.getElementById('lat-drop').value = document.getElementById("search2-lat").value;
@@ -557,7 +527,9 @@
 
             marker.on('dragend', function (e) {
                 $('#car-price').empty().append(`<img src="/img/priceloader.svg">`);
-                
+                $('#prime-price').empty().append(`<img src="/img/priceloader.svg">`);
+                $('#bike-price').empty().append(`<img src="/img/priceloader.svg">`);
+
                 var settings = {
                     "async": true,
                     "crossDomain": true,
@@ -581,6 +553,8 @@
 
             marker2.on('dragend', function (e) {
                 $('#car-price').empty().append(`<img src="/img/priceloader.svg">`);
+                $('#prime-price').empty().append(`<img src="/img/priceloader.svg">`);
+                $('#bike-price').empty().append(`<img src="/img/priceloader.svg">`);
 
                 var settings = {
                     "async": true,
@@ -611,11 +585,15 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function (res) {
-                    console.log(res.resourceSets[0].resources[0].results[0].travelDistance + ' km');
-                    console.log(((res.resourceSets[0].resources[0].results[0].travelDistance) * 50).toFixed(2) + ' Rs');
-                    console.log(res.resourceSets[0].resources[0].results[0].travelDuration + ' min');
+                    carPrice = (((res.resourceSets[0].resources[0].results[0].travelDistance) * 50).toFixed(0));
+                    primePrice = (((res.resourceSets[0].resources[0].results[0].travelDistance) * 65).toFixed(0));
+                    bikePrice = (((res.resourceSets[0].resources[0].results[0].travelDistance) * 25).toFixed(0));
 
-                    $('#car-price').empty().append(((res.resourceSets[0].resources[0].results[0].travelDistance) * 50).toFixed(0) + ' Rs');
+                    $('#car-price').empty().append('Rs ' + carPrice);
+                    $('#prime-price').empty().append('Rs ' + primePrice);
+                    $('#bike-price').empty().append('Rs ' + bikePrice);
+
+                    document.getElementById('tripdistance').value = (res.resourceSets[0].resources[0].results[0].travelDistance);
                 }
             });
         }

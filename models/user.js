@@ -78,7 +78,7 @@ const userSchema = new Schema({
     destination: {
         type: String
     },
-    latitudeandlongitudedrop:{
+    latitudeandlongitudedrop: {
         type: String
     },
     customerid: {
@@ -94,6 +94,9 @@ const userSchema = new Schema({
     },
     bookingdate: {
         type: Date
+    },
+    tripdistance: {
+        type: String
     },
 
 

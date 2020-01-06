@@ -1,170 +1,176 @@
-{{!-- admin block --}}
-<section class="adminblock">
-    <div class="container">
-        <div style="padding-top: 3vh;padding-bottom: 3vh;color:#000;">
-            <div class="card shadow-sm">
-                <div class="card-body" style="font-size:15px;">
-                    <img src="{{user.driverimage}}"
-                        style="width: 45px;height:45px;border-radius: 50%;object-fit:cover;">
-                    <div style="display: inline-block;position: relative;top: 10px;left:5px;">
-                        <strong>{{user.firstname}} {{user.lastname}}</strong> <br>
-                        <span>
-                            {{user.ridecompleted}} rides completed
-                        </span>
-                    </div>
-                    <div style="margin-top: 10px;">
-                        {{user.vehicletype}} <img src="/img/svg/circle.svg" style="width: 11px;padding:0 3px;">
-                        {{user.vehiclename}}
-                        <span
-                            style="border: 1.2px solid #000;padding:1px 3px;float: right;">{{user.vehiclenumber}}</span>
-                    </div>
-                </div>
-            </div>
+<style>
+    .myaccount-loading {
+        padding-top: 38vh;
+        padding-bottom: 30vh;
+    }
 
-            <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" class="btn shadow-sm"
-                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"
-                    target="_blank"><img src="/img/svg/help.svg" style="width: 16px;"> <br>
-                    Contact</a>
-                <a href="/admin-logout" class="btn shadow-sm"
-                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
-                    <img src="/img/svg/signout.svg" style="width: 16px;"> <br>
-                    Log Out</a>
-            </div>
+    .myaccount-loading img {
+        width: 60px;
+    }
+</style>
 
-            <div class="card shadow-sm" style="margin-top:35px;">
-                <div class="card-body">
-                    <form action="/admin/changestatus/{{user._id}}?_method=PUT" method="POST">
-                        <div
-                            style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:68px;">
-                            <h5 style="margin: 0;font-size:15px;"># ME.AVAILABLE</h5>
-                            <div style="width: 45%;">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="available" value="yes"
-                                        id="availableyes">
-                                    <label class="form-check-label">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="available" value="no"
-                                        id="availableno">
-                                    <label class="form-check-label">No</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="display: flex;flex-direction:row;justify-content:space-between;">
-                            <h5 style="margin: 0;font-size:15px;"># GEO LOCATION</h5>
-                            <div style="width: 45%;">
-                                <input type="text" class="form-control" name="lon" id="lon" placeholder="longitude"
-                                    value="{{lon}}">
-                                <input type="text" class="form-control" name="lat" id="lat" placeholder="latitude"
-                                    value="{{lat}}">
-                                <button onclick="run()" class="btn" type="button"
-                                    style="color:#fff;background:#000;padding: 8px;float: right;"><img
-                                        src="/img/gps.svg" style="width:19px;"> Find ME</button>
-                            </div>
-                        </div>
-                        <br>
-                        <br>
-                        <br>
-                        <button class="btn" style="color:#fff;background: rgb(17, 147, 154);padding: 8px;float: right;">
-                            <img src="/img/svg/edit.svg" style="width: 16px;">
-                            Change Status</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{!-- customer block --}}
-<section class="customerblock">
-    <div class="container">
-        <div style="padding-top: 3vh;padding-bottom: 3vh;color:#000;">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 style="font-weight: bold;margin:0;">
-                        Welcome {{user.firstname}} <br>
-                        <small>
-                            {{user.ridecompleted}} rides completed
-                        </small>
-                    </h5>
-                </div>
-            </div>
-
-            <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" class="btn shadow-sm"
-                    style="background:#fff;color:#000;padding:8px;margin-top:35px;width:48%;border: 1px solid rgba(0,0,0,0.125);"
-                    target="_blank"><img src="/img/svg/help.svg" style="width: 16px;"> <br>
-                    Contact</a>
-                <a href="/admin-logout" class="btn shadow-sm"
-                    style="background:#fff;color:#000;padding:8px;margin-top:35px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
-                    <img src="/img/svg/signout.svg" style="width: 16px;"> <br>
-                    Log Out</a>
-            </div>
-
-            <div class="card shadow-sm" style="margin-top:35px;">
-                <div class="card-body">
-                    <form action="/customer/changestatus/{{user._id}}?_method=PUT" method="POST">
-                        <div
-                            style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:68px;">
-                            <h5 style="margin: 0;font-size:15px;"># Email / Number</h5>
-                            <div style="width: 45%;">
-                                <input type="text" class="form-control" name="email" value="{{user.email}}"
-                                    placeholder="Enter email" style="margin:0;" readonly>
-                            </div>
-                        </div>
-                        <div
-                            style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:60px;">
-                            <h5 style="margin: 0;font-size:15px;"># First Name</h5>
-                            <div style="width: 45%;">
-                                <input type="text" class="form-control" name="firstname" value="{{user.firstname}}"
-                                    placeholder="Enter first name" style="margin:0;">
-                            </div>
-                        </div>
-                        <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                            <h5 style="margin: 0;font-size:15px;"># Last Name</h5>
-                            <div style="width: 45%;">
-                                <input type="text" class="form-control" name="lastname" value="{{user.lastname}}"
-                                    placeholder="Enter last name" style="margin:0;">
-                            </div>
-                        </div>
-                        <br>
-                        <br>
-                        <br>
-                        <button class="btn shadow"
-                            style="color:#fff;background: rgb(17, 147, 154);padding: 8px;float: right;"><img
-                                src="/img/svg/edit.svg" style="width: 16px;">
-                            Change Info</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+<section id="myaccount-wrapper">
+    <center class="myaccount-loading">
+        <img src="/img/loading.svg">
+    </center>
 </section>
 
 <script>
-    let available = "{{user.available}}"
-    if (available == "yes") {
-        document.getElementById("availableyes").checked = true;
-    }
-    if (available == "no") {
-        document.getElementById("availableno").checked = true;
-    }
+    $.getJSON("/api/auth", function (data) {
+        if (data.isAuth) {
+            if(data.isAdmin === 'false'){
+                $('#myaccount-wrapper').empty().append(`
+                    <section>
+                        <div class="container">
+                            <div style="padding-top: 3vh;padding-bottom: 3vh;color:#000;">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 style="font-weight: bold;margin:0;">
+                                            Welcome ${data.firstname} <br>
+                                            <small>
+                                                ${data.ridecompleted} trip completed
+                                            </small>
+                                        </h5>
+                                    </div>
+                                </div>
 
+                                <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                                    <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" class="btn shadow-sm"
+                                        style="background:#fff;color:#000;padding:8px;margin-top:35px;width:48%;border: 1px solid rgba(0,0,0,0.125);"
+                                        target="_blank"><img src="/img/svg/help.svg" style="width: 16px;"> <br>
+                                        Contact</a>
+                                    <a href="/admin-logout" class="btn shadow-sm"
+                                        style="background:#fff;color:#000;padding:8px;margin-top:35px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                                        <img src="/img/svg/signout.svg" style="width: 16px;"> <br>
+                                        Log Out</a>
+                                </div>
 
+                                <div class="card shadow-sm" style="margin-top:35px;">
+                                    <div class="card-body">
+                                        <form action="/customer/changestatus/${data._id}?_method=PUT" method="POST">
+                                            <div
+                                                style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:68px;">
+                                                <h5 style="margin: 0;font-size:15px;"># Email / Number</h5>
+                                                <div style="width: 45%;">
+                                                    <input type="text" class="form-control" name="email" value="${data.email}"
+                                                        placeholder="Enter email" style="margin:0;" readonly>
+                                                </div>
+                                            </div>
+                                            <div
+                                                style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:60px;">
+                                                <h5 style="margin: 0;font-size:15px;"># First Name</h5>
+                                                <div style="width: 45%;">
+                                                    <input type="text" class="form-control" name="firstname" value="${data.firstname}"
+                                                        placeholder="Enter first name" style="margin:0;">
+                                                </div>
+                                            </div>
+                                            <div
+                                                style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                                                <h5 style="margin: 0;font-size:15px;"># Last Name</h5>
+                                                <div style="width: 45%;">
+                                                    <input type="text" class="form-control" name="lastname" value="${data.lastname}"
+                                                        placeholder="Enter last name" style="margin:0;">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <button class="btn shadow"
+                                                style="color:#fff;background: rgb(17, 147, 154);padding: 8px;float: right;"><img
+                                                    src="/img/svg/edit.svg" style="width: 16px;">
+                                                Change Info</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `)
+            }else if(data.isAdmin === 'true'){
+                $('#myaccount-wrapper').empty().append(`
+                    <section>
+                        <div class="container">
+                            <div style="padding-top: 3vh;padding-bottom: 3vh;color:#000;">
+                                <div class="card shadow-sm">
+                                    <div class="card-body" style="font-size:15px;">
+                                        <img src="${data.driverimage}"
+                                            style="width: 45px;height:45px;border-radius: 50%;object-fit:cover;">
+                                        <div style="display: inline-block;position: relative;top: 10px;left:5px;">
+                                            <strong>${data.firstname} ${data.lastname}</strong> <br>
+                                            <span>
+                                                ${data.ridecompleted} trip completed
+                                            </span>
+                                        </div>
+                                        <div style="margin-top: 10px;">
+                                            ${data.vehicletype} <img src="/img/svg/circle.svg" style="width: 11px;padding:0 3px;">
+                                            ${data.vehiclename}
+                                            <span
+                                                style="border: 1.2px solid #000;padding:1px 3px;float: right;">${data.vehiclenumber}</span>
+                                        </div>
+                                    </div>
+                                </div>
 
-    //admin or not (adminuser got from nav script tag)
-    if (adminuser == "false") {
-        let adminblock = document.getElementsByClassName("adminblock");
-        for (let e of adminblock) { e.style.display = "none"; }
-    }
-    if (adminuser == "true") {
-        let customerblock = document.getElementsByClassName("customerblock");
-        for (let e of customerblock) { e.style.display = "none"; }
-    }
+                                <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                                    <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" class="btn shadow-sm"
+                                        style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"
+                                        target="_blank"><img src="/img/svg/help.svg" style="width: 16px;"> <br>
+                                        Contact</a>
+                                    <a href="/admin-logout" class="btn shadow-sm"
+                                        style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                                        <img src="/img/svg/signout.svg" style="width: 16px;"> <br>
+                                        Log Out</a>
+                                </div>
 
-
-
+                                <div class="card shadow-sm" style="margin-top:35px;">
+                                    <div class="card-body">
+                                        <form action="/admin/changestatus/{{user._id}}?_method=PUT" method="POST">
+                                            <div
+                                                style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:68px;">
+                                                <h5 style="margin: 0;font-size:15px;"># ME.AVAILABLE</h5>
+                                                <div style="width: 45%;">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="available" value="yes"
+                                                            id="availableyes" ${data.available === "yes" ? "checked" : null}>
+                                                        <label class="form-check-label">Yes</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="available" value="no"
+                                                            id="availableno" ${data.available === "no" ? "checked" : null}>
+                                                        <label class="form-check-label">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex;flex-direction:row;justify-content:space-between;">
+                                                <h5 style="margin: 0;font-size:15px;"># GEO LOCATION</h5>
+                                                <div style="width: 45%;">
+                                                    <input type="text" class="form-control" name="lon" id="lon" placeholder="longitude"
+                                                        value="${data.driverlon}">
+                                                    <input type="text" class="form-control" name="lat" id="lat" placeholder="latitude"
+                                                        value="${data.driverlat}">
+                                                    <button onclick="run()" class="btn" type="button"
+                                                        style="color:#fff;background:#000;padding: 8px;float: right;"><img
+                                                            src="/img/gps.svg" style="width:19px;"> Find ME</button>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <button class="btn"
+                                                style="color:#fff;background: rgb(17, 147, 154);padding: 8px;float: right;">
+                                                <img src="/img/svg/edit.svg" style="width: 16px;">
+                                                Change Status</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `)
+            }
+        } else {
+            window.location.replace("/admin-login");
+        }
+    })
 
 
 
@@ -179,8 +185,6 @@
 
     function success(pos) {
         var crd = pos.coords;
-
-        console.log(crd)
 
         document.getElementById("lon").value = crd.longitude;
         document.getElementById("lat").value = crd.latitude;

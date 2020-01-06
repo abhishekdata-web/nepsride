@@ -179,6 +179,7 @@ app.put('/ride-confirm/:_id', (req, res) => {
                     user.contactinfo = req.body.contactinfo;
                     user.ridestatus = 'pending';
                     user.bookingdate = Date.now();
+                    user.tripdistance = req.body.tripdistance;
 
                     user.save()
                 }).catch(err => console.log(err))
@@ -204,6 +205,7 @@ app.put('/ride-confirm/:_id', (req, res) => {
                     user.destination = req.body.destination;
                     user.adress = req.body.adress;
                     user.bookingdate = Date.now();
+                    user.tripdistance = req.body.tripdistance;
 
                     user.save()
                 }).catch(err => console.log(err))
@@ -247,9 +249,33 @@ app.get('/api/auth', (req, res) => {
         res.status(200).json({
             isAuth: true,
             isAdmin: req.user.admin,
+
+            _id: req.user._id,
             driverimage: req.user.driverimage,
+            email: req.user.email,
             firstname: req.user.firstname,
-            lastname: req.user.lastname
+            lastname: req.user.lastname,
+            ridecompleted: req.user.ridecompleted,
+            ridestatus: req.user.ridestatus,
+
+            vehicletype: req.user.vehicletype,
+            vehiclename: req.user.vehiclename,
+            vehiclenumber: req.user.vehiclenumber,
+            available: req.user.available,
+            driverlat: req.user.driverlat,
+            driverlon: req.user.driverlon,
+            drivernumber: req.user.drivernumber,
+            driverid: req.user.driverid,
+
+            matchlastname: req.user.matchlastname,
+            matchfirstname: req.user.matchfirstname,
+            adress: req.user.adress,
+            destination: req.user.destination,
+            latitudeandlongitude: req.user.latitudeandlongitude,
+            latitudeandlongitudedrop: req.user.latitudeandlongitudedrop,
+            contactinfo: req.user.contactinfo,
+            customerid: req.user.customerid,
+            tripdistance: req.user.tripdistance
         })
     } else {
         res.status(200).json({
@@ -385,7 +411,7 @@ app.get('/admin-logout', (req, res) => {
     res.redirect("/admin-login");
 })
 
-app.get('/admin/upcoming-ride', ensureAuthenticated, (req, res) => {
+app.get('/admin/upcoming-ride', (req, res) => {
     res.render('admin/upcomingride');
 })
 
@@ -424,11 +450,8 @@ app.put('/customer/changestatus/:_id', (req, res) => {
         }).catch(err => console.log(err));
 })
 
-app.get('/admin/myaccount', ensureAuthenticated, (req, res) => {
-    let lon = req.user.geolocation.coordinates[0];
-    let lat = req.user.geolocation.coordinates[1];
-
-    res.render('admin/myaccount', { lon: lon, lat: lat });
+app.get('/admin/myaccount', (req, res) => {
+    res.render('admin/myaccount');
 })
 
 // Cancel ride for customer
@@ -479,6 +502,7 @@ app.put('/cancel-ride-customer/:_id', (req, res) => {
                         user.ridestatus = 'false';
                         user.bookingdate = null;
                         user.history = [...driverhistory, ...newhistory];
+                        user.tripdistance = "";
 
                         user.save()
                     }).catch(err => console.log(err))
@@ -507,6 +531,7 @@ app.put('/cancel-ride-customer/:_id', (req, res) => {
                         user.adress = "";
                         user.bookingdate = null;
                         user.history = [...customerhistory, ...newhistory];
+                        user.tripdistance = "";
 
                         user.save()
                     }).catch(err => console.log(err))
@@ -568,6 +593,7 @@ app.put('/cancel-ride-driver/:_id', (req, res) => {
                     user.ridestatus = 'false';
                     user.bookingdate = null;
                     user.history = [...driverhistory, ...newhistory];
+                    user.tripdistance = "";
 
                     user.save()
                 }).catch(err => console.log(err))
@@ -596,6 +622,7 @@ app.put('/cancel-ride-driver/:_id', (req, res) => {
                     user.adress = "";
                     user.bookingdate = null;
                     user.history = [...customerhistory, ...newhistory];
+                    user.tripdistance = "";
 
                     user.save()
                 }).catch(err => console.log(err))
@@ -645,7 +672,7 @@ app.get('/api/your-rides', (req, res) => {
     if (req.user) {
         User.findOne({ _id: req.user._id }, function (err, user) {
             if (err) return next(err);
-            res.send({user, isAuth: true});
+            res.send({ user, isAuth: true });
         })
     } else {
         res.status(200).json({
@@ -665,7 +692,8 @@ app.put('/ride-end/:_id', (req, res) => {
         ridestatus: 'completed',
         adress: req.user.adress,
         destination: req.user.destination,
-        driverimage: req.user.driverimage
+        driverimage: req.user.driverimage,
+        tripdistance: req.user.tripdistance
     })
 
     driverhistory.push({
@@ -674,7 +702,8 @@ app.put('/ride-end/:_id', (req, res) => {
         ridestatus: 'completed',
         adress: req.user.adress,
         destination: req.user.destination,
-        driverimage: req.user.driverimage
+        driverimage: req.user.driverimage,
+        tripdistance: req.user.tripdistance
     })
 
     Promise.all(
@@ -700,6 +729,7 @@ app.put('/ride-end/:_id', (req, res) => {
                     user.bookingdate = null;
                     user.history = [...driverhistory, ...newhistory];
                     user.ridecompleted = user.ridecompleted + 1;
+                    user.tripdistance = "";
 
                     user.save()
                 }).catch(err => console.log(err))
@@ -729,6 +759,7 @@ app.put('/ride-end/:_id', (req, res) => {
                     user.bookingdate = null;
                     user.history = [...customerhistory, ...newhistory];
                     user.ridecompleted = user.ridecompleted + 1;
+                    user.tripdistance = "";
 
                     user.save()
                 }).catch(err => console.log(err))

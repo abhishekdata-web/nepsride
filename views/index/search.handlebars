@@ -31,6 +31,7 @@
                 hidden>
             <input type="text" class="form-control" id="adress" name="adress" hidden>
             <input type="text" class="form-control" id="destination" name="destination" hidden>
+            <input type="text" class="form-control" id="tripdistance" name="tripdistance" hidden>
             <input type="text" name="drivernumber" value="{{drivernumber}}" hidden>
             <input type="text" name="driverimage" value="{{driverimage}}" hidden>
             <input type="text" name="vehicletype" value="{{vehicletype}}" hidden>
@@ -86,6 +87,7 @@
             return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
         }
 
+        document.getElementById('tripdistance').value = getQueryStringValue("tripdistance")
         document.getElementById('adress').value = getQueryStringValue("address-pickup")
         document.getElementById('destination').value = getQueryStringValue("address-drop")
         document.getElementById('latitudeandlongitude').value = getQueryStringValue("lat-pickup") + ',' + getQueryStringValue("lon-pickup")

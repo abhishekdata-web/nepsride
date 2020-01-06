@@ -1,236 +1,248 @@
-{{!-- admin block --}}
-<section class="adminblock">
-    <div class="container">
-        <div class="ridetrue" style="padding-top: 3vh;padding-bottom: 3vh;color:#000;">
-            <div class="card shadow-sm">
-                <div class="card-body" style="font-size:15px;">
-                    <img src="/img/customerimg.png"
-                        style="width: 45px;height:45px;border-radius: 50%;object-fit:cover;">
-                    <div style="display: inline-block;position: relative;top: 10px;left:5px;">
-                        <strong> {{user.matchfirstname}} {{user.matchlastname}}</strong> <br>
-                        <span>
-                            <img src="/img/svg/star.svg" style="width: 12px;">
-                            <img src="/img/svg/star.svg" style="width: 12px;">
-                            <img src="/img/svg/star.svg" style="width: 12px;">
-                            <img src="/img/svg/star.svg" style="width: 12px;">
-                        </span>
-                    </div>
-                    <div style="margin-top: 10px;">
-                        location <img src="/img/svg/circle.svg"
-                            style="width: 11px;padding:0 3px;">
-                        {{#xif user.ridestatus '===' 'pending'}}
-                        <a href="https://maps.google.com/?q={{user.latitudeandlongitude}}" target="_blank">Open map</a>
-                        {{/xif}}
-                        {{#xif user.ridestatus '===' 'true'}}
-                        <a href="https://maps.google.com/?q={{user.latitudeandlongitudedrop}}" target="_blank">Open
-                            map</a>
-                        {{/xif}}
-                        {{#xif user.ridestatus '===' 'pending'}}
-                        <form action="/ride-start/{{user.customerid}}?_method=PUT" method="POST"
-                            style="display: inline;">
-                            <button style="background:none;border: 1.2px solid #000;padding:1px 3px;float: right;">Start
-                                Ride</button>
-                        </form>
-                        {{/xif}}
-                        {{#xif user.ridestatus '===' 'true'}}
-                        <form action="/ride-end/{{user.customerid}}?_method=PUT" method="POST" style="display: inline;">
-                            <button style="background:none;border: 1.2px solid #000;padding:1px 3px;float: right;">End
-                                Ride</button>
-                        </form>
-                        {{/xif}}
-                    </div>
-                </div>
-            </div>
+<style>
+    .upcoming-loading {
+        padding-top: 38vh;
+        padding-bottom: 30vh;
+    }
 
-            <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                <a href="tel:+977{{user.contactinfo}}" class="btn shadow-sm"
-                    style="color:rgb(55, 123, 212);padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
-                    <img src="/img/svg/phone.svg" style="width: 17px;padding-right: 4px;">
-                    Contact</a>
-                <form action="/cancel-ride-driver/{{user.customerid}}?_method=PUT" method="POST" style="width:48%;"
-                    onSubmit="if(!confirm('Are you sure you want to cancel the ride?')){return false;}">
-                    <button class="btn shadow-sm"
-                        style="color:red;padding:8px;margin-top:15px;width:100%;border: 1px solid rgba(0,0,0,0.125);">
-                        <img src="/img/svg/cancel.svg" style="width: 18.5px;padding-right: 4px;">
-                        Cancel</button>
-                </form>
-            </div>
+    .upcoming-loading img {
+        width: 60px;
+    }
+</style>
 
-            <br>
-
-            <div class="card shadow-sm" style="color: #000;">
-                <ul class="list-group ridetrue">
-                    <li class="list-group-item"
-                        style="border:none;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
-                        <img src="/img/gps-black.png"
-                            style="width: 24px;padding-right: 8px;position: relative;top: -1px;">
-                        <strong>Pickup location</strong>
-                        <br>
-                        <a href="https://maps.google.com/?q={{user.adress}}"
-                            style="padding-left: 25px;line-height: 2;color: #2196F3;"
-                            target="_blank">{{user.adress}}</a>
-                    </li>
-                    <li class="list-group-item"
-                        style="border:none;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
-                        <img src="/img/location-black.png"
-                            style="width: 23px;padding-right: 8px;position: relative;top: -1px;">
-                        <strong>Drop location</strong>
-                        <br>
-                        <a href="https://maps.google.com/?q={{user.destination}}"
-                            style="padding-left: 25px;line-height: 2;color: #2196F3;"
-                            target="_blank">{{user.destination}}</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="card shadow-sm" style="margin-top: 15px;color: #000;">
-                <div class="card-body">
-                    <h5 style="font-size: 14px;">Estimated cash to be paid:</h5>
-                    <img src="/img/svg/money.svg" style="width: 28px;padding-right: 6px;">
-                    <span style="">
-                         18 Rs/km <span
-                            style="float: right;font-weight: bold;">Not Paid</span>
-                    </span>
-                </div>
-            </div>
-
-            <br>
-
-            <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                <a href="/admin/myaccount" class="btn shadow-sm"
-                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
-                    <img src="/img/svg/user.svg" style="width:15px;"> <br>
-                    Account</a>
-                <a href="" class="btn shadow-sm"
-                    style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
-                    <img src="/img/svg/help.svg" style="width:16px;"> <br>
-                    Safety</a>
-            </div>
-        </div>
-
-        <div class="ridefalse" style="padding-top: 10vh;padding-bottom: 45vh;color:#000;">
-            <h1 style="font-weight: bolder;">You, have no active ride.</h1>
-            <p>You hav no ride to be shown, please stay on this page to get notified when a ride gets confirmed with
-                you.</p>
-            <span style="color: rgb(16, 104, 236);">WAITING FOR A RIDE <i class="fa fa-angle-right"></i></span>
-        </div>
-    </div>
-</section>
-
-{{!-- customer block --}}
-<section class="customerblock">
-    <div class="container">
-        <div class="ridetrue" style="padding-top: 3vh;padding-bottom: 3vh;color:#000;">
-            <div class="card shadow-sm">
-                <div class="card-body" style="font-size:15px;">
-                    <img src="{{user.driverimage}}"
-                        style="width: 45px;height:45px;border-radius: 50%;object-fit:cover;">
-                    <div style="display: inline-block;position: relative;top: 10px;left:5px;">
-                        <strong>{{user.matchfirstname}} {{user.matchlastname}}</strong> <br>
-                        <span>
-                            <img src="/img/svg/star.svg" style="width: 12px;">
-                            <img src="/img/svg/star.svg" style="width: 12px;">
-                            <img src="/img/svg/star.svg" style="width: 12px;">
-                            <img src="/img/svg/star.svg" style="width: 12px;">
-                        </span>
-                    </div>
-                    <div style="margin-top: 10px;">
-                        {{user.vehicletype}} <img src="/img/svg/circle.svg"
-                            style="width: 11px;padding:0 3px;"> {{user.vehiclename}}
-                        <span
-                            style="border: 1.2px solid #000;padding:1px 3px;float: right;">{{user.vehiclenumber}}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                <a href="tel:+977{{user.drivernumber}}" class="btn animated infinite bounce shadow-sm"
-                    style="background:#fff;color:rgb(55, 123, 212);padding:8px;margin-top:35px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
-                    <img src="/img/svg/phone.svg" style="width: 17px;padding-right: 4px;">
-                    Contact</a>
-                <form action="/cancel-ride-customer/{{user.driverid}}?_method=PUT" method="POST" style="width:48%;"
-                    onSubmit="if(!confirm('Are you sure you want to cancel the ride?')){return false;}">
-                    <button class="btn shadow-sm"
-                        style="background:#fff;color:red;padding:8px;margin-top:35px;width:100%;border: 1px solid rgba(0,0,0,0.125);">
-                        <img src="/img/svg/cancel.svg" style="width: 18.5px;padding-right: 4px;">
-                        Cancel</button>
-                </form>
-            </div>
-
-            <div class="card shadow-sm" style="margin-top: 35px;color: #000;">
-                <ul class="list-group">
-                    <li class="list-group-item"
-                        style="text-overflow: ellipsis; white-space: nowrap;overflow: hidden;border: none;">
-                        <img src="/img/gps-black.png"
-                            style="width: 24px;padding-right: 8px;position: relative;top: -1px;">
-                        <strong>Pickup location</strong>
-                        <br>
-                        <span style="padding-left: 25px;line-height: 2;">{{user.adress}}</span>
-                    </li>
-                    <li class="list-group-item"
-                        style="text-overflow: ellipsis; white-space: nowrap;overflow: hidden;border: none;">
-                        <img src="/img/location-black.png" style="width: 23px;padding-right: 8px;">
-                        <strong>Drop location</strong>
-                        <br>
-                        <span style="padding-left: 25px;line-height: 2;">{{user.destination}}</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="card shadow-sm" style="margin-top: 35px;color: #000;">
-                <div class="card-body">
-                    <h5 style="font-size: 14px;">Estimated cash to be paid:</h5>
-                    <img src="/img/svg/money.svg" style="width: 28px;padding-right: 6px;">
-                    <span style="">
-                         18 Rs/km <span
-                            style="float: right;font-weight: bold;">Not Paid</span>
-                    </span>
-                </div>
-            </div>
-
-            <br>
-
-            <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
-                <a href="/admin/myaccount" class="btn shadow-sm"
-                    style="background:#fff;color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
-                    <img src="/img/svg/user.svg" style="width:15px;"> <br>
-                    Account</a>
-                <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" class="btn shadow-sm"
-                    style="background:#fff;color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);" target="_blank">
-                    <img src="/img/svg/help.svg" style="width:16px;"> <br>
-                    Contact</a>
-            </div>
-        </div>
-
-        <div class="ridefalse" style="padding-top: 10vh;padding-bottom: 45vh;color:#000;">
-            <h1 style="font-weight: bolder;">You, have no active ride.</h1>
-            <p>You hav no ride to be shown, to see the status and info about your ride on this page, please click the
-                button below and book a ride of your choice.</p>
-            <a href="/">BOOK A RIDE <i class="fa fa-angle-right"></i></a>
-        </div>
-    </div>
+<section id="upcoming-wrapper">
+    <center class="upcoming-loading">
+        <img src="/img/loading.svg">
+    </center>
 </section>
 
 <script>
-    //ride status
-    let ridestatus = "{{user.ridestatus}}"
-    if (ridestatus == "false") {
-        let ridetrue = document.getElementsByClassName("ridetrue");
-        for (let e of ridetrue) { e.style.display = "none"; }
-    }
-    if (ridestatus == "pending" || ridestatus == "true") {
-        let ridefalse = document.getElementsByClassName("ridefalse");
-        for (let e of ridefalse) { e.style.display = "none"; }
-    }
+    $.getJSON("/api/auth", function (data) {
+        if (data.isAuth) {
+            if (data.isAdmin === 'false') {
+                if (data.ridestatus === 'false') {
+                    $('#upcoming-wrapper').empty().append(`
+                        <div class="container">
+                            <div style="padding-top: 10vh;padding-bottom: 45vh;color:#000;">
+                                <h1 style="font-weight: bolder;">You, have no active ride.</h1>
+                                <p>You hav no ride to be shown, to see the status and info about your ride on this page, please click the
+                                    button below and book a ride of your choice.</p>
+                                <a href="/">BOOK A RIDE <i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                    `)
+                } else if (data.ridestatus === 'pending' || data.ridestatus === 'true') {
+                    $('#upcoming-wrapper').empty().append(`
+                    <section>
+                        <div class="container">
+                            <div style="padding-top: 3vh;padding-bottom: 3vh;color:#000;">
+                                <div class="card shadow-sm">
+                                    <div class="card-body" style="font-size:15px;">
+                                        <img src="${data.driverimage}"
+                                            style="width: 45px;height:45px;border-radius: 50%;object-fit:cover;">
+                                        <div style="display: inline-block;position: relative;top: 10px;left:5px;">
+                                            <strong>${data.matchfirstname} ${data.matchlastname}</strong> <br>
+                                            <span>
+                                                <img src="/img/svg/star.svg" style="width: 12px;">
+                                                <img src="/img/svg/star.svg" style="width: 12px;">
+                                                <img src="/img/svg/star.svg" style="width: 12px;">
+                                                <img src="/img/svg/star.svg" style="width: 12px;">
+                                            </span>
+                                        </div>
+                                        <div style="margin-top: 10px;">
+                                            ${data.vehicletype} <img src="/img/svg/circle.svg" style="width: 11px;padding:0 3px;">
+                                            ${data.vehiclename}
+                                            <span
+                                                style="border: 1.2px solid #000;padding:1px 3px;float: right;">${data.vehiclenumber}</span>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                                    <a href="tel:+977${data.drivernumber}" class="btn animated infinite bounce shadow-sm"
+                                        style="background:#fff;color:rgb(55, 123, 212);padding:8px;margin-top:35px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                                        <img src="/img/svg/phone.svg" style="width: 17px;padding-right: 4px;">
+                                        Contact</a>
+                                    <form action="/cancel-ride-customer/${data.driverid}?_method=PUT" method="POST" style="width:48%;"
+                                        onSubmit="if(!confirm('Are you sure you want to cancel the ride?')){return false;}">
+                                        <button class="btn shadow-sm"
+                                            style="background:#fff;color:red;padding:8px;margin-top:35px;width:100%;border: 1px solid rgba(0,0,0,0.125);">
+                                            <img src="/img/svg/cancel.svg" style="width: 18.5px;padding-right: 4px;">
+                                            Cancel</button>
+                                    </form>
+                                </div>
 
-    //admin or not (adminuser got from nav script tag)
-    if (adminuser == "false") {
-        let adminblock = document.getElementsByClassName("adminblock");
-        for (let e of adminblock) { e.style.display = "none"; }
-    }
-    if (adminuser == "true") {
-        let customerblock = document.getElementsByClassName("customerblock");
-        for (let e of customerblock) { e.style.display = "none"; }
-    }
+                                <div class="card shadow-sm" style="margin-top: 35px;color: #000;">
+                                    <ul class="list-group">
+                                        <li class="list-group-item"
+                                            style="text-overflow: ellipsis; white-space: nowrap;overflow: hidden;border: none;">
+                                            <img src="/img/gps-black.png"
+                                                style="width: 24px;padding-right: 8px;position: relative;top: -1px;">
+                                            <strong>Pickup location</strong>
+                                            <br>
+                                            <span style="padding-left: 25px;line-height: 2;">${data.adress}</span>
+                                        </li>
+                                        <li class="list-group-item"
+                                            style="text-overflow: ellipsis; white-space: nowrap;overflow: hidden;border: none;">
+                                            <img src="/img/location-black.png" style="width: 23px;padding-right: 8px;">
+                                            <strong>Drop location</strong>
+                                            <br>
+                                            <span style="padding-left: 25px;line-height: 2;">${data.destination}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="card shadow-sm" style="margin-top: 35px;color: #000;">
+                                    <div class="card-body">
+                                        <h5 style="font-size: 14px;">Estimated cash to be paid:</h5>
+                                        <img src="/img/svg/money.svg" style="width: 28px;padding-right: 6px;">
+                                        <span style="">
+                                            ${(data.tripdistance * (data.vehicletype === 'bike' ? 25 : 50)).toFixed(0)} Rs <span style="float: right;font-weight: bold;">Not Paid</span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                                    <a href="/admin/myaccount" class="btn shadow-sm"
+                                        style="background:#fff;color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                                        <img src="/img/svg/user.svg" style="width:15px;"> <br>
+                                        Account</a>
+                                    <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" class="btn shadow-sm"
+                                        style="background:#fff;color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"
+                                        target="_blank">
+                                        <img src="/img/svg/help.svg" style="width:16px;"> <br>
+                                        Contact</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `)
+                }
+            } else if (data.isAdmin === 'true') {
+                if (data.ridestatus === 'false') {
+                    $('#upcoming-wrapper').empty().append(`
+                        <div class="container">
+                            <div style="padding-top: 10vh;padding-bottom: 45vh;color:#000;">
+                                <h1 style="font-weight: bolder;">You, have no active ride.</h1>
+                                <p>You hav no ride to be shown, please stay on this page to get notified when a ride gets confirmed with
+                                    you.</p>
+                                <span style="color: rgb(16, 104, 236);">WAITING FOR A RIDE <i class="fa fa-angle-right"></i></span>
+                            </div>
+                        </div>
+                    `)
+                } else if (data.ridestatus === 'pending' || data.ridestatus === 'true') {
+                    $('#upcoming-wrapper').empty().append(`
+                        <section>
+                            <div class="container">
+                                <div style="padding-top: 3vh;padding-bottom: 3vh;color:#000;">
+                                    <div class="card shadow-sm">
+                                        <div class="card-body" style="font-size:15px;">
+                                            <img src="/img/customerimg.png"
+                                                style="width: 45px;height:45px;border-radius: 50%;object-fit:cover;">
+                                            <div style="display: inline-block;position: relative;top: 10px;left:5px;">
+                                                <strong> ${data.matchfirstname} ${data.matchlastname}</strong> <br>
+                                                <span>
+                                                    <img src="/img/svg/star.svg" style="width: 12px;">
+                                                    <img src="/img/svg/star.svg" style="width: 12px;">
+                                                    <img src="/img/svg/star.svg" style="width: 12px;">
+                                                    <img src="/img/svg/star.svg" style="width: 12px;">
+                                                </span>
+                                            </div>
+                                            <div style="margin-top: 10px;">
+                                                location <img src="/img/svg/circle.svg" style="width: 11px;padding:0 3px;">
+                                                <a href="https://maps.google.com/?q=${data.ridestatus === 'pending' ? data.latitudeandlongitude : data.ridestatus === 'true' ? data.latitudeandlongitudedrop : null}" target="_blank">Open map</a>
+                                                ${
+                                                    data.ridestatus === 'pending' ?
+                                                        `
+                                                        <form action="/ride-start/${data.customerid}?_method=PUT" method="POST"
+                                                        style="display: inline;">
+                                                            <button style="background:none;border: 1.2px solid #000;padding:1px 3px;float: right;">Start
+                                                                Ride</button>
+                                                        </form>
+                                                        `
+                                                    :
+                                                    data.ridestatus === 'true' ?
+                                                        `
+                                                        <form action="/ride-end/${data.customerid}?_method=PUT" method="POST" style="display: inline;">
+                                                            <button style="background:none;border: 1.2px solid #000;padding:1px 3px;float: right;">End
+                                                                Ride</button>
+                                                        </form>
+                                                        `
+                                                    :
+                                                        null
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                                        <a href="tel:+977${data.contactinfo}" class="btn animated infinite bounce shadow-sm"
+                                            style="color:rgb(55, 123, 212);padding:8px;margin-top:35px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                                            <img src="/img/svg/phone.svg" style="width: 17px;padding-right: 4px;">
+                                            Contact</a>
+                                        <form action="/cancel-ride-driver/${data.customerid}?_method=PUT" method="POST" style="width:48%;"
+                                            onSubmit="if(!confirm('Are you sure you want to cancel the ride?')){return false;}">
+                                            <button class="btn shadow-sm"
+                                                style="color:red;padding:8px;margin-top:35px;width:100%;border: 1px solid rgba(0,0,0,0.125);">
+                                                <img src="/img/svg/cancel.svg" style="width: 18.5px;padding-right: 4px;">
+                                                Cancel</button>
+                                        </form>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="card shadow-sm" style="color: #000;">
+                                        <ul class="list-group">
+                                            <li class="list-group-item"
+                                                style="border:none;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
+                                                <img src="/img/gps-black.png"
+                                                    style="width: 24px;padding-right: 8px;position: relative;top: -1px;">
+                                                <strong>Pickup location</strong>
+                                                <br>
+                                                <span style="padding-left: 25px;line-height: 2;">${data.adress}</span>
+                                            </li>
+                                            <li class="list-group-item"
+                                                style="border:none;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
+                                                <img src="/img/location-black.png"
+                                                    style="width: 23px;padding-right: 8px;position: relative;top: -1px;">
+                                                <strong>Drop location</strong>
+                                                <br>
+                                                <span style="padding-left: 25px;line-height: 2;">${data.destination}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="card shadow-sm" style="margin-top: 35px;color: #000;">
+                                        <div class="card-body">
+                                            <h5 style="font-size: 14px;">Estimated cash to be paid:</h5>
+                                            <img src="/img/svg/money.svg" style="width: 28px;padding-right: 6px;">
+                                            <span style="">
+                                                ${(data.tripdistance * (data.vehicletype === 'bike' ? 25 : 50)).toFixed(0)} Rs <span style="float: right;font-weight: bold;">Not Paid</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <br>
+
+                                    <div style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                                        <a href="/admin/myaccount" class="btn shadow-sm"
+                                            style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                                            <img src="/img/svg/user.svg" style="width:15px;"> <br>
+                                            Account</a>
+                                        <a href="" class="btn shadow-sm"
+                                            style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
+                                            <img src="/img/svg/help.svg" style="width:16px;"> <br>
+                                            Safety</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    `)
+                }
+            }
+        } else {
+            window.location.replace("/admin-login");
+        }
+    })
 </script>

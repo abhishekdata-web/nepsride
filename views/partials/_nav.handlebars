@@ -21,7 +21,7 @@
                 <strong><a href="/" style="font-size: 20px;">Neps <span style="color: #cddc39;">Ride</span></a></strong>
             </div>
 
-            <div id="ajax-nav"></div>
+            <div id="ajax-nav"><img onclick="openNav()" src="/img/list-menu.svg" style="width: 21px;"></div>
         </div>
     </nav>
 </header>
@@ -34,19 +34,18 @@
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><img src="/img/back-arrow.svg"
                 style="width: 19px;"></a>
     </div>
-    <div class="sidenavlink">
+    <div class="sidenavlink" id="sidenav-auth">
         <a href="/">Find Ride</a>
         <a href="/your-rides">Your Trips</a>
-        <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" target="_blank">Help</a>
         <a href="/admin/myaccount">Account</a>
+
+         <hr>
     </div>
 
-    <hr>
-
     <div class="sidenavlink">
+        <a href="https://tawk.to/chat/5dd4380fd96992700fc83c04/default" target="_blank">Help</a>
         <a href="/blogs">Articles</a>
         <a href="/earnwithus">Drive With Nepsride</a>
-        <a href="/admin-logout">Logout</a>
     </div>
 </div>
 
@@ -54,7 +53,7 @@
     $.getJSON("/api/auth", function (data) {
         //auth === true
         if (data.isAuth) {
-            $('#ajax-nav').append(`<img onclick="openNav()" src="/img/list-menu.svg" style="width: 21px;">`);
+            //$('#ajax-nav').append(`<img onclick="openNav()" src="/img/list-menu.svg" style="width: 21px;">`);
             $('#pc-ajax-nav').append(`
                 <div class="header-links" style="font-weight:bold;">
                     <a href="/your-rides">Your Trips</a>
@@ -63,14 +62,14 @@
                 </div>
             `);
         } else {
-            $('#ajax-nav').append(`
+            /*$('#ajax-nav').append(`
                 <strong>
                     <a href="/admin-login" style="font-size: 14px;padding-right:8px;">Log in</a>
                     <a href="/admin-register"
                         style="background: #cddc39;color:#000;padding:5px 9px;font-size: 14px;">Sign
                         up</a>
                 </strong>
-            `);
+            `);*/
             $('#pc-ajax-nav').append(`
                 <div class="header-links">
                     <a href="/admin-login" style="font-size: 14px;padding-right:8px;font-weight: bold;">
@@ -86,19 +85,28 @@
                         up</a>
                 </div>
             `);
+
+            document.getElementById('sidenav-auth').style.display = 'none';
         }
 
         //admin == true
         if (data.isAdmin === 'true') {
             $('#sidenav-user-icon').append(`<img src="${data.driverimage}"
                 style="object-fit:cover;width: 45px;height:45px;border-radius:50%;">`)
-        } else {
+        } else if (data.isAdmin === 'false') {
             $('#sidenav-user-icon').append(`<img class="customerblock" src="/img/customerimg.png"
+                style="object-fit:cover;width: 45px;height:45px;border-radius:50%;">`)
+        } else {
+            $('#sidenav-user-icon').append(`<img class="customerblock" src="/img/sidebar-logo.png"
                 style="object-fit:cover;width: 45px;height:45px;border-radius:50%;">`)
         }
 
         //general data for both user types
-        $('#sidenav-user-name').append(data.firstname + ' ' + data.lastname)
+        if(data.isAdmin === 'true' || data.isAdmin === 'false'){
+            $('#sidenav-user-name').append(data.firstname + ' ' + data.lastname)
+        }else{
+            $('#sidenav-user-name').append(`<a href="/admin-login" style="color:#fff;">Please Login <img src="/img/svg/login-sidebar.svg" style="width:22px;"></a>`)
+        }
     })
 
     //remove later =========================================
