@@ -98,7 +98,7 @@ const { Blog } = require('./models/blog');
 
 //Middlewares
 const { auth } = require('./helpers/auth');
-const { ensureAuth } = require('./helpers/ensureAuth');
+const { ensureAuth } = require('./middleware/ensureAuth');
 
 //====================================Api Routes============================================
 app.post('/api/users/register', (req, res) => {
