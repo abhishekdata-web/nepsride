@@ -1,4 +1,4 @@
-const cacheName = 'v2';
+const cacheName = 'v1';
 
 const cacheAssets = [
     '/css/style.css',
@@ -6,7 +6,16 @@ const cacheAssets = [
     '/css/animate.min.css',
     '/offline',
     '/img/loading.svg',
-    '/img/priceloader.svg'
+    '/img/priceloader.svg',
+
+    '/',
+    '/your-rides',
+    '/admin/upcoming-ride',
+    '/admin/myaccount',
+    '/earnwithus',
+    '/admin-driver-register',
+    '/admin-login',
+    '/admin-register'
 ]
 
 // Call install event
