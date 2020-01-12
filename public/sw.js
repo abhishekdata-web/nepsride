@@ -6,16 +6,7 @@ const cacheAssets = [
     '/css/animate.min.css',
     '/offline',
     '/img/loading.svg',
-    '/img/priceloader.svg',
-
-    '/',
-    '/your-rides',
-    '/admin/upcoming-ride',
-    '/admin/myaccount',
-    '/earnwithus',
-    '/admin-driver-register',
-    '/admin-login',
-    '/admin-register'
+    '/img/priceloader.svg'
 ]
 
 // Call install event
