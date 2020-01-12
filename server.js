@@ -1,5 +1,4 @@
 const express = require('express');
-const compression = require('compression');
 const mongoose = require('mongoose');
 const exphbs = require('express-handlebars');
 const path = require('path');
@@ -7,23 +6,19 @@ const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
-const passport = require('passport');
-const bcrypt = require('bcryptjs');
-const { ensureAuthenticated } = require('./helpers/auth');
+const cookieParser = require('cookie-parser');
 
 const app = express();
-app.use(compression());
+require('dotenv').config();
 
-//database config
-const db = require('./config/database');
-//passport config
-require('./config/passport')(passport);
-
+// Mongoose Warning --- remove later
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 // Mongoose
 mongoose.Promise = global.Promise;
-mongoose.connect(db.mongoURI, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true
+mongoose.connect(process.env.DATABASE, {
+    useUnifiedTopology: true
 })
     .then(() => console.log('mongodb connected'))
     .catch(err => console.log(err));
@@ -74,19 +69,17 @@ app.set('view engine', 'handlebars');
 // static path
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Body parser middleware
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+//body parser
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+//cookie parser
+app.use(cookieParser());
 
 // method override middleware
 app.use(methodOverride('_method'));
 
 // express session middleware
 app.use(session({ secret: 'secret', resave: true, saveUninitialized: true }))
-
-//passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
 
 // flash middleware
 app.use(flash());
@@ -95,8 +88,6 @@ app.use(flash());
 app.use(function (req, res, next) {
     res.locals.success_msg = req.flash("success_msg");
     res.locals.error_msg = req.flash("error_msg");
-    res.locals.error = req.flash("error");
-    res.locals.user = req.user || null;
     next();
 })
 
@@ -105,56 +96,143 @@ app.use(function (req, res, next) {
 const { User } = require('./models/user');
 const { Blog } = require('./models/blog');
 
-//====================================Routes================================================
+//Middlewares
+const { auth } = require('./helpers/auth');
+const { ensureAuth } = require('./helpers/ensureAuth');
+
+//====================================Api Routes============================================
+app.post('/api/users/register', (req, res) => {
+    User.findOne({ 'email': req.body.email })
+        .then(user => {
+            if (user) {
+                return res.json({ registerSuccess: false, message: 'Email already registered' })
+            } else {
+                const newUser = new User(req.body);
+
+                newUser.save((err, doc) => {
+                    if (err) return res.json({ registerSuccess: false, err });
+
+                    //sendEmail(doc.email, doc.name, null, "welcome");
+                    return res.status(200).json({
+                        registerSuccess: true
+                    })
+                })
+            }
+        })
+})
+
+app.post('/api/users/login', (req, res) => {
+    User.findOne({ 'email': req.body.email }, (err, user) => {
+        if (!user) return res.json({ loginSuccess: false, message: 'Auth failed, email not found' });
+
+        user.comparePassword(req.body.password, (err, isMatch) => {
+            if (!isMatch) return res.json({ loginSuccess: false, message: 'Wrong Password' });
+
+            user.generateToken((err, user) => {
+                if (err) return res.status(400).send(err);
+
+                res.cookie('w_auth', user.token).status(200).json({
+                    loginSuccess: true
+                })
+            })
+        })
+    })
+})
+
+app.get('/api/users/auth', auth, (req, res) => {
+    res.status(200).json({
+        isAdmin: req.user.admin,
+        isAuth: true,
+
+        _id: req.user._id,
+        driverimage: req.user.driverimage,
+        email: req.user.email,
+        firstname: req.user.firstname,
+        lastname: req.user.lastname,
+        ridecompleted: req.user.ridecompleted,
+        ridestatus: req.user.ridestatus,
+
+        vehicletype: req.user.vehicletype,
+        vehiclename: req.user.vehiclename,
+        vehiclenumber: req.user.vehiclenumber,
+        available: req.user.available,
+        driverlat: req.user.driverlat,
+        driverlon: req.user.driverlon,
+        drivernumber: req.user.drivernumber,
+        driverid: req.user.driverid,
+
+        matchlastname: req.user.matchlastname,
+        matchfirstname: req.user.matchfirstname,
+        adress: req.user.adress,
+        destination: req.user.destination,
+        latitudeandlongitude: req.user.latitudeandlongitude,
+        latitudeandlongitudedrop: req.user.latitudeandlongitudedrop,
+        contactinfo: req.user.contactinfo,
+        customerid: req.user.customerid,
+        tripdistance: req.user.tripdistance,
+        history: req.user.history
+    })
+})
+
+app.get('/api/users/logout', auth, (req, res) => {
+    User.findOneAndUpdate(
+        { _id: req.user._id },
+        { token: '' },
+        (err, doc) => {
+            if (err) return res.json({ success: false, err });
+
+            return res.status(200).send({
+                success: true
+            })
+        }
+    )
+})
+
+//====================================Fronted Routes================================================
 
 app.get("/", (req, res) => {
     res.render('index/index');
 })
 
-app.get('/ride-search', (req, res) => {
+app.get('/ride-search', ensureAuth, (req, res) => {
     let pickupLat = req.query['lat-pickup'];
     let pickupLon = req.query['lon-pickup'];
 
-    if (req.user) {
-        if (req.user.admin == 'true') {
-            req.flash('error_msg', 'Admin user cannot book rides, thankyou');
-            res.redirect('/admin/myaccount')
+    if (req.user.admin == 'true') {
+        req.flash('error_msg', 'Admin user cannot book rides, thankyou');
+        res.redirect('/admin/myaccount')
+    } else {
+        if (req.user.ridestatus == 'pending' || req.user.ridestatus == 'true') {
+            req.flash('error_msg', 'You hav an ongoing ride, please complete it first');
+            res.redirect('/admin/upcoming-ride');
         } else {
-            if (req.user.ridestatus == 'pending' || req.user.ridestatus == 'true') {
-                req.flash('error_msg', 'You hav an ongoing ride, please complete it first');
-                res.redirect('/admin/upcoming-ride');
-            } else {
-                User.find(
-                    {
-                        "vehicletype": { "$regex": req.query['vehicletype'], "$options": "i" },
-                        "admin": "true",
-                        "available": "yes",
-                        "geolocation": {
-                            $near: {
-                                $geometry: {
-                                    type: "Point",
-                                    coordinates: [pickupLon, pickupLat]
-                                },
-                                $maxDistance: 16000
-                            }
+            User.find(
+                {
+                    "vehicletype": { "$regex": req.query['vehicletype'], "$options": "i" },
+                    "admin": "true",
+                    "available": "yes",
+                    "geolocation": {
+                        $near: {
+                            $geometry: {
+                                type: "Point",
+                                coordinates: [pickupLon, pickupLat]
+                            },
+                            $maxDistance: 16000
                         }
                     }
-                )
-                    // .sort('-ridecompleted')
-                    .limit(1)
-                    .then(users => {
-                        res.render("index/search", { users: users })
-                    })
-                    .catch(err => console.log(err))
-            }
+                }
+            )
+                // .sort('-ridecompleted')
+                .limit(1)
+                .then(users => {
+                    res.render("index/search", { users: users })
+                })
+                .catch(err => console.log(err))
         }
-    } else {
-        req.flash('error_msg', 'Please login, before you continue booking ride');
-        res.redirect('/admin-login')
     }
 })
 
-app.put('/ride-confirm/:_id', (req, res) => {
+app.put('/ride-confirm/:_id', ensureAuth, (req, res) => {
     let userAvailable = true;
 
     Promise.all(
@@ -229,59 +307,7 @@ app.get("/about-us", (req, res) => {
 })
 
 app.get("/admin-login", (req, res) => {
-    if (!req.user) {
-        res.render('admin/login');
-    } else {
-        return res.redirect('/');
-    }
-})
-
-app.post("/admin-login", (req, res, next) => {
-    passport.authenticate("local", {
-        successRedirect: '/',
-        failureRedirect: "/admin-login",
-        failureFlash: true
-    })(req, res, next)
-})
-
-app.get('/api/auth', (req, res) => {
-    if (req.user) {
-        res.status(200).json({
-            isAuth: true,
-            isAdmin: req.user.admin,
-
-            _id: req.user._id,
-            driverimage: req.user.driverimage,
-            email: req.user.email,
-            firstname: req.user.firstname,
-            lastname: req.user.lastname,
-            ridecompleted: req.user.ridecompleted,
-            ridestatus: req.user.ridestatus,
-
-            vehicletype: req.user.vehicletype,
-            vehiclename: req.user.vehiclename,
-            vehiclenumber: req.user.vehiclenumber,
-            available: req.user.available,
-            driverlat: req.user.driverlat,
-            driverlon: req.user.driverlon,
-            drivernumber: req.user.drivernumber,
-            driverid: req.user.driverid,
-
-            matchlastname: req.user.matchlastname,
-            matchfirstname: req.user.matchfirstname,
-            adress: req.user.adress,
-            destination: req.user.destination,
-            latitudeandlongitude: req.user.latitudeandlongitude,
-            latitudeandlongitudedrop: req.user.latitudeandlongitudedrop,
-            contactinfo: req.user.contactinfo,
-            customerid: req.user.customerid,
-            tripdistance: req.user.tripdistance
-        })
-    } else {
-        res.status(200).json({
-            isAuth: false
-        })
-    }
+    res.render('admin/login');
 })
 
 app.get("/admin-register", (req, res) => {
@@ -290,125 +316,6 @@ app.get("/admin-register", (req, res) => {
 
 app.get("/admin-driver-register", (req, res) => {
     res.render('admin/registerdriver');
-})
-
-app.post('/admin-register', (req, res) => {
-    let errors = []
-
-    if (req.body.password != req.body.password2) {
-        errors.push({ text: "Password did not match" });
-    }
-
-    if (errors.length > 0) {
-        res.render('admin/register', {
-            errors: errors,
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            password: req.body.password,
-            password2: req.body.password2
-        })
-    } else {
-        User.findOne({ email: req.body.email })
-            .then(user => {
-                if (user) {
-                    req.flash("error_msg", "The email is already registered with Nepsride")
-                    res.redirect("/admin-login")
-                } else {
-                    let newUser = {
-                        firstname: req.body.firstname,
-                        lastname: req.body.lastname,
-                        email: req.body.email,
-                        password: req.body.password,
-                        password2: req.body.password2
-                    }
-                    bcrypt.genSalt(10, function (err, salt) {
-                        bcrypt.hash(newUser.password, salt, function (err, hash) {
-                            if (err) throw err;
-                            newUser.password = hash;
-                            new User(newUser)
-                                .save()
-                                .then(user => {
-                                    req.flash("success_msg", "You are now registered, please sign in !")
-                                    res.redirect("/admin-login")
-                                })
-                                .catch(err => console.log(err))
-                        })
-                    })
-                }
-            })
-            .catch(err => console.log(err))
-    }
-})
-
-app.post('/admin-driver-register', (req, res) => {
-    let errors = []
-
-    if (req.body.password != req.body.password2) {
-        errors.push({ text: "Password did not match" });
-    }
-
-    if (errors.length > 0) {
-        res.render('admin/register', {
-            errors: errors,
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            password: req.body.password,
-            password2: req.body.password2,
-            drivernumber: req.body.drivernumber,
-            driverimage: req.body.driverimage,
-            vehiclename: req.body.vehiclename,
-            vehiclenumber: req.body.vehiclenumber,
-            vehicleimage: req.body.vehicleimage
-        })
-    } else {
-        User.findOne({ email: req.body.email })
-            .then(user => {
-                if (user) {
-                    req.flash("error_msg", "The email is already registered with Nepsride")
-                    res.redirect("/admin-login")
-                } else {
-                    let newUser = {
-                        firstname: req.body.firstname,
-                        lastname: req.body.lastname,
-                        email: req.body.email,
-                        password: req.body.password,
-                        password2: req.body.password2,
-                        drivernumber: req.body.drivernumber,
-                        driverimage: req.body.driverimage,
-                        vehiclename: req.body.vehiclename,
-                        vehiclenumber: req.body.vehiclenumber,
-                        vehicleimage: req.body.vehicleimage,
-                        vehicletype: req.body.vehicletype,
-                        city: req.body.city,
-                        location: req.body.location,
-                        purpose: req.body.purpose,
-                        available: req.body.available
-                    }
-                    bcrypt.genSalt(10, function (err, salt) {
-                        bcrypt.hash(newUser.password, salt, function (err, hash) {
-                            if (err) throw err;
-                            newUser.password = hash;
-                            new User(newUser)
-                                .save()
-                                .then(user => {
-                                    req.flash("success_msg", "You are now registered, please sign in !")
-                                    res.redirect("/admin-login")
-                                })
-                                .catch(err => console.log(err))
-                        })
-                    })
-                }
-            })
-            .catch(err => console.log(err))
-    }
-})
-
-app.get('/admin-logout', (req, res) => {
-    req.logout();
-    req.flash("success_msg", "You are logged out of your id, successfully");
-    res.redirect("/admin-login");
 })
 
 app.get('/admin/upcoming-ride', (req, res) => {
@@ -455,7 +362,7 @@ app.get('/admin/myaccount', (req, res) => {
 })
 
 // Cancel ride for customer
-app.put('/cancel-ride-customer/:_id', (req, res) => {
+app.put('/cancel-ride-customer/:_id', ensureAuth, (req, res) => {
     let customerhistory = [];
     let driverhistory = [];
 
@@ -549,7 +456,7 @@ app.put('/cancel-ride-customer/:_id', (req, res) => {
 })
 
 // Cancel ride for Driver
-app.put('/cancel-ride-driver/:_id', (req, res) => {
+app.put('/cancel-ride-driver/:_id', ensureAuth, (req, res) => {
     let customerhistory = [];
     let driverhistory = [];
 
@@ -635,7 +542,7 @@ app.put('/cancel-ride-driver/:_id', (req, res) => {
     }).catch(err => console.log(err))
 })
 
-app.put('/ride-start/:_id', (req, res) => {
+app.put('/ride-start/:_id', ensureAuth, (req, res) => {
     Promise.all(
         [
             User.findOne({
@@ -668,21 +575,8 @@ app.get('/your-rides', (req, res) => {
     res.render("admin/your-rides")
 })
 
-app.get('/api/your-rides', (req, res) => {
-    if (req.user) {
-        User.findOne({ _id: req.user._id }, function (err, user) {
-            if (err) return next(err);
-            res.send({ user, isAuth: true });
-        })
-    } else {
-        res.status(200).json({
-            isAuth: false
-        })
-    }
-})
-
 // End the ride / complete ride
-app.put('/ride-end/:_id', (req, res) => {
+app.put('/ride-end/:_id', ensureAuth, (req, res) => {
     let customerhistory = [];
     let driverhistory = [];
 

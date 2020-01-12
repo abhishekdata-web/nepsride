@@ -14,50 +14,24 @@
             <h2 class="search-form" style="margin-bottom:10px;text-align: left;">Sign Up to Drive</h2>
             <h5 class="search-form" style="color: #444;margin-bottom:10px;font-size:17px;text-align: left;">Earn cash and & be your own boss</h5>
             <br>
-            <form class="search-form" method="POST" action="/admin-driver-register">
-                <input type="text" class="form-control" placeholder="Enter First Name" name="firstname"
-                    value="{{firstname}}" required>
-                <input type="text" class="form-control" placeholder="Enter Last Name" name="lastname"
-                    value="{{lastname}}" required>
+            <form class="search-form" id="register-form">
+                <input type="text" class="form-control" placeholder="Enter First Name" name="firstname" required>
+                <input type="text" class="form-control" placeholder="Enter Last Name" name="lastname" required>
                 <input type="text" class="form-control" placeholder="Email Adress or Number (Used for login)"
-                    name="email" value="{{email}}" required>
-                <input type="password" class="form-control" placeholder="Enter Password" name="password"
-                    value="{{password}}" required>
-                <input type="password" class="form-control" placeholder="Re-enter Password" name="password2"
-                    value="{{password2}}" required>
-                <input type="text" class="form-control" placeholder="Enter Your Number" name="drivernumber"
-                    value="{{drivernumber}}" required>
+                    name="email" required>
+                <input type="password" class="form-control" placeholder="Enter Password" name="password" required>
+                <input type="text" class="form-control" placeholder="Enter Your Number" name="drivernumber" required>
                 <input type="text" class="form-control" placeholder="Enter Driver Image Link" name="driverimage"
                     value="/img/userimage.png" required>
-                <input type="text" class="form-control" placeholder="Enter Vehicle Name" name="vehiclename"
-                    value="{{vehiclename}}" required>
-                <input type="text" class="form-control" placeholder="Enter Vehicle Number" name="vehiclenumber"
-                    value="{{vehiclenumber}}" required>
+                <input type="text" class="form-control" placeholder="Enter Vehicle Name" name="vehiclename" required>
+                <input type="text" class="form-control" placeholder="Enter Vehicle Number" name="vehiclenumber" required>
                 <input type="text" class="form-control" placeholder="Enter Vehicle Image Link" name="vehicleimage"
                     value="/img/not-available.png" required>
                 <select class="form-control" name="vehicletype" required>
                     <option value="">Enter You Vehicle Category</option>
                     <option value="car">Mini</option>
                     <option value="prime">Prime</option>
-                    <option value="pickup">Pickup</option>
-                    <option value="rental">Rental</option>
                     <option value="bike">Bike</option>
-                </select>
-                <select class="form-control" name="city" required>
-                    <option value="">Enter You City</option>
-                    <option value="nepalgunj">Nepalunj</option>
-                    <option value="kohalpur">Kohalpur</option>
-                </select>
-                <select class="form-control" name="location" required>
-                    <option value="">Enter You Pickup Location</option>
-                    <option value="nepalgunj">Nepalunj</option>
-                    <option value="kohalpur">Kohalpur</option>
-                </select>
-                <select class="form-control" name="purpose" required>
-                    <option value="">Purpose</option>
-                    <option value="adresspickup">Adress Pickup</option>
-                    <option value="longdistance">Long Distance</option>
-                    <option value="parceldelivery">Parcel Delivery</option>
                 </select>
                 <div style="color:#000">
                     <br>
@@ -71,10 +45,13 @@
                         <label class="form-check-label">No</label>
                     </div>
                 </div>
+                <div id="register-error" style="text-align: left;color:red;font-size:13px;"></div>
                 <button class="btn"
                     style="font-weight:bold;margin-top: 20px;color:#fff;background: rgb(17, 147, 154);width: 100%;padding:11px 20px;text-align: left;">
                     REGISTER
-                    <img src="/img/svg/long-arrow-right.svg" style="float: right;margin-top:2px;width:14px;">
+                    <span id="register-loader">
+                        <img src="/img/svg/long-arrow-right.svg" style="float: right;margin-top:2px;width:14px;">
+                    </span>
                     </button>
             </form>
             <br>
@@ -92,3 +69,34 @@
         </center>
     </div>
 </section>
+
+<script>
+    function processForm(e) {
+        e.preventDefault();
+
+        $('#register-loader').empty().append(`<img src="/img/loginloader.svg" style="float: right;margin-top:2px;width:18px;">`)
+
+        $.ajax({
+            url: '/api/users/register',
+            dataType: 'json',
+            type: 'post',
+            contentType: 'application/x-www-form-urlencoded',
+            data: $(this).serialize(),
+            success: function (data, textStatus, jQxhr) {
+                console.log(data)
+
+                if (data.registerSuccess === true) {
+                    window.location.replace("/admin-login");
+                } else if (data.registerSuccess === false) {
+                    $('#register-loader').empty().append(`<img src="/img/svg/long-arrow-right.svg" style="float: right;margin-top:2px;width:14px;">`)
+                    $('#register-error').empty().append(`<div style="margin-top:20px;">${data.message}</div>`)
+                }
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+    }
+
+    $('#register-form').submit(processForm);
+</script>

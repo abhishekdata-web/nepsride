@@ -52,7 +52,7 @@
                                 <span id="car-price" style="line-height: 29px;"><img src="/img/priceloader.svg" style="width: 42px;"></span> <br>
                                 <input type="radio" name="vehicletype" value="car">
                                 <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg"> <br>
-                                <span>Micro</span> <img src="/img/svg/info-circle.svg" style="width: 10px;">
+                                <span>Micro</span> <img src="/img/svg/info-circle.svg" style="width: 10px;" data-toggle="modal" data-target="#vehicleInfoModal">
                             </label>
                         </div>
                         <div>
@@ -62,7 +62,7 @@
                                 <img
                                     src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-prime-sedan-active.svg">
                                 <br>
-                                <span>Prime</span> <img src="/img/svg/info-circle.svg" style="width: 10px;">
+                                <span>Prime</span> <img src="/img/svg/info-circle.svg" style="width: 10px;" data-toggle="modal" data-target="#vehicleInfoModal2">
                             </label>
                         </div>
                         <div>
@@ -70,7 +70,7 @@
                                 <span id="bike-price" style="line-height: 29px;"><img src="/img/priceloader.svg" style="width: 42px;"></span> <br>
                                 <input type="radio" name="vehicletype" value="bike">
                                 <img src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-bike-active.svg"> <br>
-                                <span>Bike</span> <img src="/img/svg/info-circle.svg" style="width: 10px;">
+                                <span>Bike</span> <img src="/img/svg/info-circle.svg" style="width: 10px;" data-toggle="modal" data-target="#vehicleInfoModal3">
                             </label>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                                         <img
                                             src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-mini-active.svg">
                                         <br>
-                                        Mini <img src="/img/svg/info-circle.svg" style="width: 10px;">
+                                        Mini <img src="/img/svg/info-circle.svg" style="width: 10px;" data-toggle="modal" data-target="#vehicleInfoModal">
                                     </label>
                                 </div>
                                 <div>
@@ -125,7 +125,7 @@
                                         <img
                                             src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-prime-sedan-active.svg">
                                         <br>
-                                        Prime <img src="/img/svg/info-circle.svg" style="width: 10px;">
+                                        Prime <img src="/img/svg/info-circle.svg" style="width: 10px;" data-toggle="modal" data-target="#vehicleInfoModal2">
                                     </label>
                                 </div>
                                 <div>
@@ -136,7 +136,7 @@
                                         <img
                                             src="https://www.olacabs.com/webstatic/img/ola-fleet-svg/ola-bike-active.svg">
                                         <br>
-                                        Bike <img src="/img/svg/info-circle.svg" style="width: 10px;">
+                                        Bike <img src="/img/svg/info-circle.svg" style="width: 10px;" data-toggle="modal" data-target="#vehicleInfoModal3">
                                     </label>
                                 </div>
                             </div>
@@ -255,6 +255,90 @@
     </div>
 </div>
 
+{{!-- vehicle info modal --}}
+<div class="modal fade" id="vehicleInfoModal" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background: #000;">
+            <div class="modal-header" style="color:#fff;">
+                <div class="modal-title">Micro</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="/img/back-arrow.svg" style="width: 19px;">
+                </button>
+            </div>
+            <div class="modal-body" style="background:#fff;font-weight:bold;font-size:13.5px;">
+                <center style="font-size:15px;">Share rides, ride in budget.</center> <br>
+                <div>
+                    Capacity
+                    <span style="float: right;">4 people</span>
+                </div>
+                <div>
+                    Fare (sub to change)
+                    <span style="float: right;">50-55/km</span>
+                </div>
+            </div>
+            <div class="modal-footer" style="background:#fff;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- vehicle info modal --}}
+<div class="modal fade" id="vehicleInfoModal2" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background: #000;">
+            <div class="modal-header" style="color:#fff;">
+                <div class="modal-title">Prime</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="/img/back-arrow.svg" style="width: 19px;">
+                </button>
+            </div>
+            <div class="modal-body" style="background:#fff;font-weight:bold;font-size:13.5px;">
+                <center style="font-size:15px;">Share rides, ride in budget.</center> <br>
+                <div>
+                    Capacity
+                    <span style="float: right;">4 people</span>
+                </div>
+                <div>
+                    Fare (sub to change)
+                    <span style="float: right;">60-65/km</span>
+                </div>
+            </div>
+            <div class="modal-footer" style="background:#fff;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- vehicle info modal --}}
+<div class="modal fade" id="vehicleInfoModal3" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background: #000;">
+            <div class="modal-header" style="color:#fff;">
+                <div class="modal-title">Bike</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="/img/back-arrow.svg" style="width: 19px;">
+                </button>
+            </div>
+            <div class="modal-body" style="background:#fff;font-weight:bold;font-size:13.5px;">
+                <center style="font-size:15px;">Just grab one & get going.</center> <br>
+                <div>
+                    Capacity
+                    <span style="float: right;">1 people</span>
+                </div>
+                <div>
+                    Fare (sub to change)
+                    <span style="float: right;">22-27/km</span>
+                </div>
+            </div>
+            <div class="modal-footer" style="background:#fff;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{!-- location iq map with leaflet --}}
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 <script src="https://tiles.unwiredmaps.com/js/leaflet-unwired.js"></script>
@@ -282,7 +366,7 @@
     //search the automcomplete api / pickup
     const searchPlaces = async searchText => {
         if (searchText.length > 2) {
-            const res = await fetch(`https://api.locationiq.com/v1/autocomplete.php?key=pk.3bc69031431258dca&q=${searchText}&limit=3`);
+            const res = await fetch(`https://api.locationiq.com/v1/autocomplete.php?key=pk.3bc69031431258dca&q=${searchText}&limit=5&countrycodes=NP`);
             const places = await res.json();
 
             console.log(places);
@@ -316,8 +400,7 @@
                         <img src='/img/location-black.png' style="width: 17px;">
                     </div>
                     <button class="btn" style='width:88%;padding:0 0 15px 0;text-align:left;border:none;border-bottom: 1px solid rgba(0,0,0,0.125);'>
-                        <span style='font-size:14px;'>${match.address.name}</span> <br>
-                        <span style='font-size:14px;'>${match.address.city} / ${match.address.postcode}</span> <br>
+                        <span style='font-size:14px;'>${match.display_name}</span> <br>
                         <small>Lat: ${match.lat} / Lon: ${match.lon}</small>
                     </button>
                 </div>
@@ -353,7 +436,7 @@
     //search the automcomplete api / drop
     const searchPlaces2 = async searchText => {
         if (searchText.length > 2) {
-            const res = await fetch(`https://api.locationiq.com/v1/autocomplete.php?key=pk.3bc69031431258dca&q=${searchText}&limit=3`);
+            const res = await fetch(`https://api.locationiq.com/v1/autocomplete.php?key=pk.3bc69031431258dca&q=${searchText}&limit=5&countrycodes=NP`);
             const places = await res.json();
 
             console.log(places);
@@ -375,8 +458,7 @@
                         <img src='/img/location-black.png' style="width: 17px;">
                     </div>
                     <button class="btn" style='width:88%;padding:0 0 15px 0;text-align:left;border:none;border-bottom: 1px solid rgba(0,0,0,0.125);'>
-                        <span style='font-size:14px;'>${match.address.name}</span> <br>
-                        <span style='font-size:14px;'>${match.address.city} / ${match.address.postcode}</span> <br>
+                        <span style='font-size:14px;'>${match.display_name}</span> <br>
                         <small>Lat: ${match.lat} / Lon: ${match.lon}</small>
                     </button>
                 </div>

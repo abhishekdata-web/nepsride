@@ -39,7 +39,7 @@
         <a href="/your-rides">Your Trips</a>
         <a href="/admin/myaccount">Account</a>
 
-         <hr>
+        <hr>
     </div>
 
     <div class="sidenavlink">
@@ -50,7 +50,7 @@
 </div>
 
 <script>
-    $.getJSON("/api/auth", function (data) {
+    $.getJSON("/api/users/auth", function (data) {
         //auth === true
         if (data.isAuth) {
             //$('#ajax-nav').append(`<img onclick="openNav()" src="/img/list-menu.svg" style="width: 21px;">`);
@@ -58,7 +58,7 @@
                 <div class="header-links" style="font-weight:bold;">
                     <a href="/your-rides">Your Trips</a>
                     <a href="/admin/myaccount"> <i class="fa fa-user-cog"></i> My Account</a>
-                    <a href="/admin-logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+                    <a href="#" onClick="logoutHandler()"><i class="fa fa-sign-out-alt"></i> Logout</a>
                 </div>
             `);
         } else {
@@ -93,24 +93,18 @@
         if (data.isAdmin === 'true') {
             $('#sidenav-user-icon').append(`<img src="${data.driverimage}"
                 style="object-fit:cover;width: 45px;height:45px;border-radius:50%;">`)
-        } else if (data.isAdmin === 'false') {
-            $('#sidenav-user-icon').append(`<img class="customerblock" src="/img/customerimg.png"
-                style="object-fit:cover;width: 45px;height:45px;border-radius:50%;">`)
         } else {
             $('#sidenav-user-icon').append(`<img class="customerblock" src="/img/sidebar-logo.png"
                 style="object-fit:cover;width: 45px;height:45px;border-radius:50%;">`)
         }
 
         //general data for both user types
-        if(data.isAdmin === 'true' || data.isAdmin === 'false'){
+        if (data.isAdmin === 'true' || data.isAdmin === 'false') {
             $('#sidenav-user-name').append(data.firstname + ' ' + data.lastname)
-        }else{
+        } else {
             $('#sidenav-user-name').append(`<a href="/admin-login" style="color:#fff;">Please Login <img src="/img/svg/login-sidebar.svg" style="width:22px;"></a>`)
         }
     })
-
-    //remove later =========================================
-    let adminuser = "{{user.admin}}"
 
 
     //side nav=======================
@@ -121,5 +115,16 @@
     /* Set the width of the side navigation to 0 */
     function closeNav() {
         document.getElementById("mySidenav").style.width = "0";
+    }
+
+
+
+    //logout handler
+    const logoutHandler = () => {
+        $.getJSON("/api/users/logout", function (data) {
+            if(data.success === true){
+                window.location.replace("/admin-login");
+            }
+        })
     }
 </script>

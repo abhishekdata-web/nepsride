@@ -16,7 +16,7 @@
 </section>
 
 <script>
-    $.getJSON("/api/auth", function (data) {
+    $.getJSON("/api/users/auth", function (data) {
         if (data.isAuth) {
             if (data.isAdmin === 'false') {
                 if (data.ridestatus === 'false') {

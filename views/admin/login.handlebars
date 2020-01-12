@@ -1,8 +1,9 @@
 <style>
-    body{
+    body {
         background: #f1f1f1;
     }
-    input{
+
+    input {
         padding: 20px !important;
     }
 </style>
@@ -12,13 +13,17 @@
         <center style="padding-top: 15vh;padding-bottom: 15vh;color:#000">
             <h2 class="search-form" style="text-align: left;">Sign in</h2>
             <br>
-            <form class="search-form" method="POST" , action="/admin-login">
+            <form class="search-form" id="login-form">
                 <input type="text" class="form-control" placeholder="Email or mobile number" name="email" required>
                 <input type="password" class="form-control" placeholder="Enter Password" name="password" required>
-                <button class="btn" style="font-weight:bold;margin-top: 20px;color:#fff;background: rgb(17, 147, 154);width: 100%;padding:11px 20px;text-align: left;">
+                <div id="login-error" style="text-align: left;color:red;font-size:13px;"></div>
+                <button class="btn"
+                    style="font-weight:bold;margin-top: 20px;color:#fff;background: rgb(17, 147, 154);width: 100%;padding:11px 20px;text-align: left;">
                     LOGIN
-                    <img src="/img/svg/long-arrow-right.svg" style="float: right;margin-top:2px;width:14px;">
-                    </button>
+                    <span id="login-loader">
+                        <img src="/img/svg/long-arrow-right.svg" style="float: right;margin-top:2px;width:14px;">
+                    </span>
+                </button>
             </form>
             <br>
             <div class="search-form" style="text-align: left;">
@@ -27,3 +32,34 @@
         </center>
     </div>
 </section>
+
+<script>
+    function processForm(e) {
+        e.preventDefault();
+
+        $('#login-loader').empty().append(`<img src="/img/loginloader.svg" style="float: right;margin-top:2px;width:18px;">`)
+
+        $.ajax({
+            url: '/api/users/login',
+            dataType: 'json',
+            type: 'post',
+            contentType: 'application/x-www-form-urlencoded',
+            data: $(this).serialize(),
+            success: function (data, textStatus, jQxhr) {
+                console.log(data)
+
+                if (data.loginSuccess === true) {
+                    window.location.replace("/admin/myaccount");
+                } else if (data.loginSuccess === false) {
+                    $('#login-loader').empty().append(`<img src="/img/svg/long-arrow-right.svg" style="float: right;margin-top:2px;width:14px;">`)
+                    $('#login-error').empty().append(`<div style="margin-top:20px;">${data.message}</div>`)
+                }
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+    }
+
+    $('#login-form').submit(processForm);
+</script>

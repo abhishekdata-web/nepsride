@@ -16,7 +16,7 @@
 </section>
 
 <script>
-    $.getJSON("/api/auth", function (data) {
+    $.getJSON("/api/users/auth", function (data) {
         if (data.isAuth) {
             if(data.isAdmin === 'false'){
                 $('#myaccount-wrapper').empty().append(`
@@ -39,7 +39,7 @@
                                         style="background:#fff;color:#000;padding:8px;margin-top:35px;width:48%;border: 1px solid rgba(0,0,0,0.125);"
                                         target="_blank"><img src="/img/svg/help.svg" style="width: 16px;"> <br>
                                         Contact</a>
-                                    <a href="/admin-logout" class="btn shadow-sm"
+                                    <a href="#" onClick="logoutHandler()" class="btn shadow-sm"
                                         style="background:#fff;color:#000;padding:8px;margin-top:35px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
                                         <img src="/img/svg/signout.svg" style="width: 16px;"> <br>
                                         Log Out</a>
@@ -115,7 +115,7 @@
                                         style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);"
                                         target="_blank"><img src="/img/svg/help.svg" style="width: 16px;"> <br>
                                         Contact</a>
-                                    <a href="/admin-logout" class="btn shadow-sm"
+                                    <a href="#" onClick="logoutHandler()" class="btn shadow-sm"
                                         style="color:#000;padding:8px;margin-top:15px;width:48%;border: 1px solid rgba(0,0,0,0.125);">
                                         <img src="/img/svg/signout.svg" style="width: 16px;"> <br>
                                         Log Out</a>
@@ -123,7 +123,7 @@
 
                                 <div class="card shadow-sm" style="margin-top:35px;">
                                     <div class="card-body">
-                                        <form action="/admin/changestatus/{{user._id}}?_method=PUT" method="POST">
+                                        <form action="/admin/changestatus/${data._id}?_method=PUT" method="POST">
                                             <div
                                                 style="display: flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:68px;">
                                                 <h5 style="margin: 0;font-size:15px;"># ME.AVAILABLE</h5>
