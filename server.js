@@ -97,7 +97,7 @@ const { User } = require('./models/user');
 const { Blog } = require('./models/blog');
 
 //Middlewares
-const { auth } = require('./helpers/auth');
+const { auth } = require('./middleware/auth');
 const { ensureAuth } = require('./middleware/ensureAuth');
 
 //====================================Api Routes============================================
