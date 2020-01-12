@@ -1,4 +1,4 @@
-const cacheName = 'v6';
+const cacheName = 'v9';
 
 const cacheAssets = [
     '/css/style.css',
